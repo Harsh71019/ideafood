@@ -1,0 +1,8 @@
+.marginbotttom-main{
+}
+
+.main-nav{
+    background-color: rgba(255,255,255,0.5) !important;
+    color: white !important;
+    backdrop-filter: blur(5px);
+}
