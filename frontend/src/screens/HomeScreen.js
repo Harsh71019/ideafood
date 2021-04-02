@@ -5,6 +5,8 @@ import Hero from "../components/Hero";
 import HeaderText from "../components/HeaderText";
 import Product from "../components/Product";
 import { listProducts } from "../actions/productActions";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -23,9 +25,9 @@ const HomeScreen = () => {
       <HeaderText headertext="checkout our products" />
       <Container className="my-3">
         {loading ? (
-          <h2>...loading</h2>
+          <Loader />
         ) : error ? (
-          <h3>{error}</h3>
+          <Message variant="danger">{error}</Message>
         ) : (
           <Row>
             {products.map((product) => (

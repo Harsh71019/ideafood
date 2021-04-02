@@ -3,11 +3,11 @@ import "../styles/cardhm.styles.css";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 
-const Product = ({ product }) => {
+const Product = ({ product, match }) => {
   return (
     <div class="card card-main my-3 shadow">
       <div class="card-body card-body-main">
-        <div className="image-container-card"> 
+        <div className="image-container-card">
           <Link to={`/product/${product._id}`}>
             <img
               class="card-img-top image-card-main image-fluid"
@@ -43,7 +43,9 @@ const Product = ({ product }) => {
           </div>
 
           <div className="col-6 px-0 d-flex justify-content-center">
-            <button class="btn btn-danger ">Add to Cart</button>
+            <Link to={`/cart/${product._id}?qty=${1}`}>
+              <button class="btn btn-danger ">Add to Cart</button>
+            </Link>
           </div>
         </div>
       </div>
