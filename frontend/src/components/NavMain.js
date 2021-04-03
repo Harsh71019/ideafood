@@ -3,11 +3,24 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import FormControl from "react-bootstrap/FormControl";
 import "../styles/nav.styles.css";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const NavMain = () => {
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
     <header className="marginbotttom-main">
       <Navbar className="main-nav" fixed="top" collapseOnSelect expand="sm">
@@ -29,16 +42,29 @@ const NavMain = () => {
                 <i className="fa fa-shopping-cart"></i> Cart
               </Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/signin">
-              <Nav.Link>
-                <i className="fa fa-sign-in-alt"></i> Login
-              </Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/login">
-              <Nav.Link>
-                <i className="fa fa-user-plus mr-1"></i>Sign-Up
-              </Nav.Link>
-            </LinkContainer>
+            {userInfo ? (
+              <NavDropdown title={userInfo.name} id="username">
+                <LinkContainer to="/profile">
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <>
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fa fa-sign-in-alt"></i> Login
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/register">
+                  <Nav.Link>
+                    <i className="fa fa-user-plus mr-1"></i>Sign-Up
+                  </Nav.Link>
+                </LinkContainer>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

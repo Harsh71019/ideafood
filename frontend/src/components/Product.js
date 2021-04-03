@@ -38,14 +38,20 @@ const Product = ({ product, match }) => {
         <div class="row">
           <div className="col-6 px-0 d-flex justify-content-center">
             <Link className="btn btn-light" to={`/product/${product._id}`}>
-              View Details
+               Details
             </Link>
           </div>
 
           <div className="col-6 px-0 d-flex justify-content-center">
-            <Link to={`/cart/${product._id}?qty=${1}`}>
-              <button class="btn btn-danger ">Add to Cart</button>
-            </Link>
+            {product.countInStock === 0 ? (
+              <Link to="/">
+                <button className="btn btn-dark">Out of Stock</button>
+              </Link>
+            ) : (
+              <Link to={`/cart/${product._id}?qty=${1}`}>
+                <button class="btn btn-danger">+ Cart</button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
