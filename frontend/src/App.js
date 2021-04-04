@@ -23,10 +23,11 @@ const App = () => {
       <Route path="/login" component={LoginScreen} />
       <Route path="/register" component={RegisterScreen} />
       <Route path="/profile" component={ProfileScreen} />
-      <Route path="/order/:id" component={OrderScreen} />
+      <Route path="/orders/:id" component={OrderScreen} />
       <Route path="/placeorder" component={PlaceOrderScreen} />
       <Route path="/shipping" component={ShippingScreen} />
-      <Route path="/payment" component={PaymentScreen} /> <Footer />
+      <Route path="/payment" component={PaymentScreen} /> 
+      <Footer />
     </Router>
   );
 };
