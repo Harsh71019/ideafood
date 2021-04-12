@@ -3,7 +3,7 @@ import "../styles/footer.styles.css";
 
 const Footer = () => {
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center footer">
       <p>Copyright &copy; Harsh Patel</p>
     </div>
   );

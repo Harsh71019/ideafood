@@ -1,8 +1,64 @@
-.marginbotttom-main{
+.main-nav {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  z-index: 99999;
+  backdrop-filter: saturate(180%) blur(5px);
 }
 
-.main-nav{
-    background-color: rgba(255,255,255,0.5) !important;
-    color: white !important;
-    backdrop-filter: blur(5px);
+.nav-font-styles {
+  color: #f5f5f7 !important;
 }
+
+.bg-searchbox {
+  background-color: #1d1d1f !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.bg-searchbox::placeholder {
+    color: #f5f5f7 !important;
+    opacity: 1; /* Firefox */
+}
+
+.bg-searchbox :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #f5f5f7 !important;
+}
+
+.bg-searchbox ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #f5f5f7 !important;
+}
+
+.nav-dropdown{
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: saturate(180%) blur(5px);
+  color: #f5f5f7 !important;
+}
+
+#username{
+  color: #f5f5f7 !important; 
+}
+
+.search-icon-css{
+  width:20px;
+  height:20px;
+}
+
+
+
+@media only screen and (max-width: 480px) {
+  .search-icon-css{
+    width:20px;
+    height:20px;
+    position: absolute;
+    top: 30%;
+    right: 6%;
+  }
+
+  .searchbox-main-div{
+    margin-top: 10px;
+  }
+}
+
+
+

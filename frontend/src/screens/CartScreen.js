@@ -41,7 +41,7 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-58">
       <Row>
         <Col md={8}>
           <h4>Shopping Cart</h4>

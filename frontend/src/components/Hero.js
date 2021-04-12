@@ -8,7 +8,7 @@ import "../styles/hero.styles.css"
 
 const Hero = () => {
   return (
-    <Carousel fade>
+    <Carousel fade className="mt-58">
       <Carousel.Item className="main-div-hero">
         <img
           className="d-block w-100 image-hero"

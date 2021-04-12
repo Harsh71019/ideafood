@@ -1,6 +1,9 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import OTP from "../models/otpModel.js";
 import generateToken from "../utils/generateToken.js";
+import bcrypt from "bcryptjs";
+import crypto from "crypto"
 
 //@desc Auth user and get token
 //@routes GET /api/users/login
@@ -164,10 +167,9 @@ const updateUser = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.mobile = req.body.mobile || user.mobile;
-    user.isAdmin = req.body.isAdmin 
+    user.isAdmin = req.body.isAdmin;
 
     const updatedUser = await user.save();
-
 
     res.status(201).json({
       _id: updatedUser._id,
@@ -182,6 +184,51 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc Create a token for password reset
+//@routes PUT /api/users/resetpassword
+// @access Private Public
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) throw new Error("User does not exist");
+  let token = await OTP.findOne({ userId: user._id });
+  if (token) await OTP.deleteOne();
+  let resetToken = crypto.randomBytes(32).toString("hex");
+  const hash = await bcrypt.hash(resetToken, Number(10));
+
+  await new OTP({
+    userId: user._id,
+    token: hash,
+    createdAt: Date.now(),
+  }).save();
+
+  const link = `http://localhost:3000/passwordReset?token=${resetToken}&id=${user._id}`;
+  console.log(link)
+  // sendEmail(
+  //   user.email,
+  //   "Password Reset Request",
+  //   { name: user.name, link: link },
+  //   "./template/requestResetPassword.handlebars"
+  // );
+  return res.json(link);
+  // if (user && (await user.matchPasswords(password))) {
+  //   res.json({
+  //     _id: user._id,
+  //     name: user.name,
+  //     email: user.email,
+  //     mobile: user.mobile,
+  //     isAdmin: user.isAdmin,
+  //     token: generateToken(user._id),
+  //   });
+  // } else {
+  //   res.status(401);
+  //   throw new Error("Invalid email or password");
+  // }
+});
+
 export {
   updateUser,
   authUser,
@@ -191,4 +238,5 @@ export {
   getUsers,
   deleteUser,
   getUserById,
+  resetPassword,
 };

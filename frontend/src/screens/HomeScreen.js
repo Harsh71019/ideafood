@@ -8,7 +8,9 @@ import { listProducts } from "../actions/productActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const keyword = match.params.keyword;
+
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
@@ -16,8 +18,8 @@ const HomeScreen = () => {
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
@@ -31,7 +33,7 @@ const HomeScreen = () => {
         ) : (
           <Row>
             {products.map((product) => (
-              <Col key={product._id} xs={6} sm={6} md={6} lg={4} xl={3}>
+              <Col key={product._id} xs={12} sm={6} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
             ))}
