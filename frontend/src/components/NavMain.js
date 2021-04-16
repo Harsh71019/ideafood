@@ -73,20 +73,20 @@ const NavMain = () => {
                 <NavDropdown
                   className="nav-font-styles"
                   title="Admin"
-                  id="adminmenu"
+                  id="adminname"
                 >
                   <LinkContainer to="/admin/userlist">
-                    <NavDropdown.Item className="nav-font-styles">
+                    <NavDropdown.Item>
                       Users
                     </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to="/admin/productlist">
-                    <NavDropdown.Item className="nav-font-styles">
+                    <NavDropdown.Item>
                       Manage Product
                     </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to="/admin/orderlist">
-                    <NavDropdown.Item className="nav-font-styles">
+                    <NavDropdown.Item>
                       Orders
                     </NavDropdown.Item>
                   </LinkContainer>

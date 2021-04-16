@@ -20,7 +20,8 @@ import {
 } from "../actions/productActions";
 import "../index.css";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
-import "../styles/productscreen.css"
+import "../styles/productscreen.css";
+import Meta from "../components/Meta";
 
 const ProductScreen = ({ match, history }) => {
   const [qty, setQty] = useState(1);
@@ -53,7 +54,7 @@ const ProductScreen = ({ match, history }) => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
     dispatch(listProductDetails(match.params.id));
-  }, [match, dispatch,successProductReview]);
+  }, [match, dispatch, successProductReview]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -82,9 +83,15 @@ const ProductScreen = ({ match, history }) => {
           <Message variant="danger">{error}</Message>
         ) : (
           <>
+            <Meta title={product.name} />
             <Row>
               <Col md={6}>
-                <Image src={product.image} alt={product.name} fluid className="image-product-screen"/>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fluid
+                  className="image-product-screen"
+                />
               </Col>
               <Col md={3}>
                 <ListGroup variant="flush">
