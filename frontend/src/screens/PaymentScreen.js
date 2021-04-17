@@ -60,6 +60,16 @@ const PaymentScreen = ({ history }) => {
 
             <Form.Check
               name="paymentMethod"
+              id="RazorPay"
+              type="radio"
+              label="RazorPay or Debit Card"
+              value="RazorPay"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+
+            <Form.Check
+              name="paymentMethod"
               id="CashOnDelivery"
               type="radio"
               label="Cash on Delivery"
