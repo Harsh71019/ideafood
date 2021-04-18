@@ -153,14 +153,18 @@ const ProductScreen = ({ match, history }) => {
                   )}
 
                   <ListGroup.Item>
-                    <Button
-                      className="btn-block"
-                      type="button"
-                      onClick={addToCartHandler}
-                      disabled={product.countInStock === 0}
-                    >
-                      Add To Cart
-                    </Button>
+                    {userInfo && userInfo.isAdmin ? (
+                      <>admin cannot order</>
+                    ) : (
+                      <Button
+                        className="btn-block"
+                        type="button"
+                        onClick={addToCartHandler}
+                        disabled={product.countInStock === 0}
+                      >
+                        Add To Cart
+                      </Button>
+                    )}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>

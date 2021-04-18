@@ -2,8 +2,12 @@ import React from "react";
 import "../styles/cardhm.styles.css";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Product = ({ product, match }) => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   return (
     <div className="card card-main my-3 shadow">
       <div className="image-container-card">
@@ -37,7 +41,10 @@ const Product = ({ product, match }) => {
         </div>
         <div className="row">
           <div className="col-6  d-flex justify-content-center ">
-            <Link className="btn btn-light buttonincard" to={`/product/${product._id}`}>
+            <Link
+              className="btn btn-light buttonincard"
+              to={`/product/${product._id}`}
+            >
               Details
             </Link>
           </div>
@@ -51,6 +58,7 @@ const Product = ({ product, match }) => {
               <Link
                 to={`/cart/${product._id}?qty=${1}`}
                 className="btn btn-danger buttonincard"
+                disabled={userInfo.isAdmin ? true : false}
               >
                 + Cart
               </Link>

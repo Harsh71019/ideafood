@@ -11,7 +11,10 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import morgan from "morgan";
 import path from "path";
 import cors from "cors";
+import RazorPay from "razorpay";
+import shortid from "shortid";
 
+// z
 dotenv.config();
 connectDB();
 const app = express();
@@ -21,9 +24,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(cors());
-
 app.use(express.json());
-
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoute);
@@ -33,6 +34,22 @@ app.use("/api/upload", uploadRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+// app.post("/api/razorpay", async (req, res) => {
+//   const payment_capture = 1;
+//   const amount = 500;
+//   const currency = "INR";
+
+//   const options = {
+//     amount,
+//     currency,
+//     receipt: shortid.generate(),
+//     payment_capture,
+//   };
+
+//   const response = await razorpay.orders.create(options);
+//   console.log(response)
+// });
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));

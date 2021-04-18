@@ -39,6 +39,7 @@ const OrderListScreen = ({ history }) => {
                 <th>ID</th>
                 <th>USER</th>
                 <th>DATE</th>
+                <th>TIME</th>
                 <th>TOTAL PRICE</th>
                 <th>PAID</th>
                 <th>DELIVERED</th>
@@ -51,6 +52,7 @@ const OrderListScreen = ({ history }) => {
                   <td>{order._id}</td>
                   <td>{order.user && order.user.name}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{order.createdAt.substring(11, 20)}</td>
                   <td>₹{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (

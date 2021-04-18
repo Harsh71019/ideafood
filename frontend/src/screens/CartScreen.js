@@ -24,6 +24,9 @@ const CartScreen = ({ match, location, history }) => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   console.log(cartItems);
 
   useEffect(() => {
@@ -107,14 +110,18 @@ const CartScreen = ({ match, location, history }) => {
                   .toFixed(2)}
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button
-                  type="button"
-                  className="btn-block"
-                  disabled={cartItems.length === 0}
-                  onClick={checkoutHandler}
-                >
-                  Proceeed to Checkout
-                </Button>
+                {userInfo && userInfo.isAdmin ? (
+                  <>Admin cannot order</>
+                ) : (
+                  <Button
+                    type="button"
+                    className="btn-block"
+                    disabled={cartItems.length === 0}
+                    onClick={checkoutHandler}
+                  >
+                    Proceeed to Checkout
+                  </Button>
+                )}
               </ListGroup.Item>
             </ListGroup>
           </Card>
