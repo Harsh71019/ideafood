@@ -58,7 +58,7 @@ const Product = ({ product, match }) => {
               <Link
                 to={`/cart/${product._id}?qty=${1}`}
                 className="btn btn-danger buttonincard"
-                disabled={userInfo.isAdmin ? true : false}
+                  // disabled={userInfo.isAdmin ? true : false}
               >
                 + Cart
               </Link>
