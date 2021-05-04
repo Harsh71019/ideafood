@@ -26,6 +26,7 @@ const CartScreen = ({ match, location, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  console.log(cart)
 
   console.log(cartItems);
 
@@ -44,7 +45,7 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   return (
-    <Container className="mt-58">
+    <Container className="">
       <Row>
         <Col md={8}>
           <h4>Shopping Cart</h4>

@@ -21,6 +21,9 @@ import {
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
+  RAZOR_ORDER_FAIL,
+  RAZOR_ORDER_SUCCESS,
+  RAZOR_ORDER_REQUEST,
 } from "../constants/orderConstants";
 import { USER_DETAILS_RESET } from "../constants/userConstants";
 
@@ -164,6 +167,19 @@ export const orderDeliverReducer = (state = {}, action) => {
     case ORDER_DELIVER_RESET:
       return {};
 
+    default:
+      return state;
+  }
+};
+
+export const razorPayReducer = (state = {}, action) => {
+  switch (action.type) {
+    case RAZOR_ORDER_REQUEST:
+      return { loading: true };
+    case RAZOR_ORDER_SUCCESS:
+      return { loading: false, paySuccess: action.payload, success: true };
+    case RAZOR_ORDER_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

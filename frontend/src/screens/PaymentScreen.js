@@ -9,7 +9,6 @@ const PaymentScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
 
   const { shippingAddress } = cart;
-  
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -19,16 +18,11 @@ const PaymentScreen = ({ history }) => {
     history.push("/login");
   }
 
-
-
-
   if (!shippingAddress) {
     history.push("/shipping");
   }
 
-  
-
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("Cash On Delivery");
 
   const dispatch = useDispatch();
 
@@ -50,19 +44,9 @@ const PaymentScreen = ({ history }) => {
           <Col>
             <Form.Check
               name="paymentMethod"
-              id="PayPal"
-              type="radio"
-              label="Paypal or Credit Card"
-              value="PayPal"
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-
-            <Form.Check
-              name="paymentMethod"
               id="RazorPay"
               type="radio"
-              label="RazorPay or Debit Card"
+              label="RazorPay"
               value="RazorPay"
               checked
               onChange={(e) => setPaymentMethod(e.target.value)}
@@ -74,15 +58,6 @@ const PaymentScreen = ({ history }) => {
               type="radio"
               label="Cash on Delivery"
               value="CashOnDelivery"
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-
-            <Form.Check
-              name="paymentMethod"
-              id="Stripe"
-              type="radio"
-              label="Stripe or Credit Card"
-              value="Stripe"
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>

@@ -1,11 +1,25 @@
 .footer {
   left: 0;
   bottom: 0;
+  top: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8) !important;
   color: white;
   text-align: center;
-  padding: 10px;
-  height: 300px;
-  margin-top: 50vh;
+  padding: 70px;
+}
+
+.social-icons-footer {
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.footer-icons-link {
+  text-decoration: none !important;
+  color: white;
+}
+
+.footer-icons-link :hover {
+  text-decoration: none !important;
+  color: white;
 }

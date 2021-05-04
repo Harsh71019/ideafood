@@ -18,6 +18,8 @@ import {
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  forgotPasswordReducer,
+  resetPasswordReducer,
 } from "./reducers/userReducers";
 import {
   orderCreateReducer,
@@ -26,7 +28,13 @@ import {
   orderListMyReducer,
   orderListReducer,
   orderDeliverReducer,
+  razorPayReducer,
 } from "./reducers/orderReducers";
+
+import {
+  userFeedbackReducer,
+  feedbackListReducer,
+} from "./reducers/feedbackReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -49,6 +57,11 @@ const reducer = combineReducers({
   orderListMy: orderListMyReducer,
   orderList: orderListReducer,
   orderDeliver: orderDeliverReducer,
+  forgotPassword: forgotPasswordReducer,
+  resetPassword: resetPasswordReducer,
+  razorPay: razorPayReducer,
+  userFeedback: userFeedbackReducer,
+  feedbackList: feedbackListReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

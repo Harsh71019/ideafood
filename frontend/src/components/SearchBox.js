@@ -17,19 +17,19 @@ const SearchBox = ({ history }) => {
 
   return (
     <Form onSubmit={submitHandler} inline className="searchbox-main-div">
-      <Form.Control
-        type="text"
-        name="q"
-        onChange={(e) => setKeyword(e.target.value)}
-        placeholder="Search Products"
-        className="mr-sm-2 ml-sm-5 nav-font-styles bg-searchbox"
-      ></Form.Control>
-      <span onClick={submitHandler}>
-        <img className="search-icon-css" src={SearchIcon} alt="Search" />
-      </span>
-      {/* <Button type="submit" variant="outline-success" className="">
-        Search
-      </Button> */}
+      <div className="ms-md-auto pe-md-3 d-flex align-items-center">
+        <div className="input-group">
+            <i onClick={submitHandler} className="fas fa-search search-icon p-2
+            " aria-hidden="true"></i>
+          <input
+            type="text"
+            name="q"
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="Search Products"
+            className="nav-font-styles bg-searchbox form-control"
+          />
+        </div>
+      </div>
     </Form>
   );
 };

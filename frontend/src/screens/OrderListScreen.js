@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Row, Button, Form, Col, Table, Container } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Table, Container } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
 import { listOrders } from "../actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment-timezone";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -24,6 +24,10 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
 
+  var dateConvert = moment(orders.createdAt)
+    .tz("Asia/Kolkata")
+    .format("dddd, MMMM Do YYYY, hh:mm:ss a");
+
   return (
     <>
       <Container>
@@ -38,8 +42,7 @@ const OrderListScreen = ({ history }) => {
               <tr>
                 <th>ID</th>
                 <th>USER</th>
-                <th>DATE</th>
-                <th>TIME</th>
+                <th>DATE && TIME</th>
                 <th>TOTAL PRICE</th>
                 <th>PAID</th>
                 <th>DELIVERED</th>
@@ -51,12 +54,15 @@ const OrderListScreen = ({ history }) => {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.user && order.user.name}</td>
-                  <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.createdAt.substring(11, 20)}</td>
+                  <td>{dateConvert}</td>
+
                   <td>₹{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
+                      <i
+                        className="fas fa-check"
+                        style={{ color: "green" }}
+                      ></i>
                     ) : (
                       <i className="fas fa-times" style={{ color: "red" }}></i>
                     )}

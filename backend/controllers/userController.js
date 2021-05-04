@@ -234,7 +234,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     
     <body style="margin:0; padding:0;" bgcolor="#F0F0F0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
         <h1>Please Click On The Link To Reset Password </h1>
-        <p> http://localhost:3000/resetpassword/${token} </p>
+        <p> http://localhost:3000/reset-password/${token} </p>
     </body>
     </html>
     `,
@@ -285,12 +285,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 
           const updatedUser = await user.save();
           res.status(201).json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            mobile: updatedUser.mobile,
-            isAdmin: updatedUser.isAdmin,
-            token: generateToken(updatedUser._id),
+            message: "Password Reset Success!",
           });
         }
       }

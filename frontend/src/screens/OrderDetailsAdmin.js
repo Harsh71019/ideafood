@@ -22,10 +22,10 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
+import moment from "moment-timezone";
 
 const OrderDetailsAdmin = ({ match, history }) => {
   const orderId = match.params.id;
-  const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((state) => state.orderDetails);
@@ -53,38 +53,20 @@ const OrderDetailsAdmin = ({ match, history }) => {
   }
 
   useEffect(() => {
+    dispatch(getOrderDetails(match.params.id));
+
     if (!userInfo) {
       history.push("/login");
     }
 
-    const addPaypalScript = async () => {
-      const { data: clientId } = await axios.get("/api/config/paypal");
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-    if (!order || successPay || successDeliver) {
+    if (!order  || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPaypalScript();
-      } else {
-        setSdkReady(true);
-      }
-    }
-  }, [dispatch, orderId, successPay, order]);
+    } 
+  }, [dispatch, successPay]);
 
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
-    dispatch(payOrder(orderId, paymentResult));
-  };
+
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
@@ -130,7 +112,10 @@ const OrderDetailsAdmin = ({ match, history }) => {
 
                 {order.isDelivered ? (
                   <Message variant="success">
-                    Delivered on {order.deliveredAt}
+                    Delivered on&nbsp;
+                    {moment(order.deliveredAt)
+                      .tz("Asia/Kolkata")
+                      .format("dddd, MMMM Do YYYY, hh:mm:ss a")}
                   </Message>
                 ) : (
                   <Message variant="danger">Not Delivered</Message>
@@ -143,7 +128,12 @@ const OrderDetailsAdmin = ({ match, history }) => {
                   {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
-                  <Message variant="success">Paid on {order.paidAt}</Message>
+                  <Message variant="success">
+                    Paid on&nbsp;
+                    {moment(order.paidAt)
+                      .tz("Asia/Kolkata")
+                      .format("dddd, MMMM Do YYYY, hh:mm:ss a")}
+                  </Message>
                 ) : (
                   <Message variant="danger">Not Paid</Message>
                 )}

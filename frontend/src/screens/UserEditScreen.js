@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -53,11 +53,10 @@ const UserEditScreen = ({ match, history }) => {
   return (
     <>
       <FormContainer>
-        <Link to="/admin/userlist" className="btn btn-light my-3">
+        <Link to="/admin/userlist" className="btn btn-danger my-3">
           Go Back
         </Link>
 
-        <h3>Edit User</h3>
 
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message>{errorUpdate}</Message>}
@@ -67,50 +66,56 @@ const UserEditScreen = ({ match, history }) => {
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="isadmin">
-              <Form.Check
-                type="checkbox"
-                label="Make Admin"
-                // value={isAdmin}
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
-            </Form.Group>
+          <Card className="shadow-lg card-login">
+            <Card.Body>
+            <h3 className="headingstyles text-center">Edit User</h3>
 
-            <Form.Group controlId="mobile">
-              <Form.Label>Mobile</Form.Label>
-              <Form.Control
-                type="tel"
-                maxLength="10"
-                minLength="10"
-                placeholder="Enter Mobile"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Button type="submit" variant="primary">
-              Update User
-            </Button>
-          </Form>
+              <Form onSubmit={submitHandler}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="Enter Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="email">
+                  <Form.Label>Email Address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="isadmin">
+                  <Form.Check
+                    type="checkbox"
+                    label="Make Admin"
+                    // value={isAdmin}
+                    checked={isAdmin}
+                    onChange={(e) => setIsAdmin(e.target.checked)}
+                  ></Form.Check>
+                </Form.Group>
+
+                <Form.Group controlId="mobile">
+                  <Form.Label>Mobile</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    maxLength="10"
+                    minLength="10"
+                    placeholder="Enter Mobile"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Button type="submit" className="btn-grad mt-3">
+                  Update User
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
         )}
       </FormContainer>
     </>

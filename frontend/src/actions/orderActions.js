@@ -15,11 +15,12 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
-  ORDER_LIST_RESET,
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
-  ORDER_DELIVER_RESET,
+  RAZOR_ORDER_FAIL,
+  RAZOR_ORDER_SUCCESS,
+  RAZOR_ORDER_REQUEST,
 } from "../constants/orderConstants";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -43,6 +44,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_SUCCESS,
       payload: data,
     });
+    localStorage.removeItem("cartItems");
   } catch (error) {
     dispatch({
       type: ORDER_CREATE_FAIL,
@@ -215,6 +217,48 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const razorSuccess = (
+  orderID,
+  paymentIdRazor,
+  signature,
+  orderId
+) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RAZOR_ORDER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `/api/orders/razorpayment`,
+      { orderID, paymentIdRazor, signature, orderId },
+      config
+    );
+
+    dispatch({
+      type: RAZOR_ORDER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: RAZOR_ORDER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

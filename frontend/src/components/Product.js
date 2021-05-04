@@ -3,7 +3,7 @@ import "../styles/cardhm.styles.css";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Button } from "react-bootstrap";
 const Product = ({ product, match }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -57,10 +57,10 @@ const Product = ({ product, match }) => {
             ) : (
               <Link
                 to={`/cart/${product._id}?qty=${1}`}
-                className="btn btn-danger buttonincard"
-                  // disabled={userInfo.isAdmin ? true : false}
+                className=" buttonincard text-decoration-none"
+                // disabled={userInfo.isAdmin ? true : false}
               >
-                + Cart
+                <Button className="forgotpassword-btn">+ Cart</Button>
               </Link>
             )}
           </div>

@@ -1,0 +1,91 @@
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-striped-color: #67748e;
+  --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+  --bs-table-active-color: #67748e;
+  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table-hover-color: #67748e;
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #67748e;
+  vertical-align: top;
+  border-color: #e9ecef;
+}
+
+.td-email{
+  color: black;
+}
+.td-mobile{
+  color: black;
+}
+
+
+.th-border-none {
+  border: none !important;
+}
+
+.fontstylesth{
+    color: #8392ab;
+    font-size: 12px;
+}
+
+.table-card-border {
+  border: none !important;
+}
+
+.table-body-border {
+  border: none !important;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.delete-button{
+  color:red;
+  cursor: pointer;
+  background: transparent;
+}
+
+.delete-button:hover{
+  color:rgb(197, 6, 6);
+  background: transparent;
+}
+
+
+@media (max-width: 575.98px) {
+  .table-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .table-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .table-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1399.98px) {
+  .table-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

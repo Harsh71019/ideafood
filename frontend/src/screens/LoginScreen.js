@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Button, Form, Col } from "react-bootstrap";
+import { Row, Button, Form, Col, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { login } from "../actions/userActions";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/loginscreen.styles.css";
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
@@ -17,7 +20,9 @@ const LoginScreen = ({ location, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
 
-  const { loading, error, userInfo } = userLogin;
+  const { loading, error, userInfo, success } = userLogin;
+
+  console.log(success);
 
   useEffect(() => {
     if (userInfo) {
@@ -30,42 +35,60 @@ const LoginScreen = ({ location, history }) => {
     //Dispatch Login
     dispatch(login(email, password));
   };
+
+
   return (
     <FormContainer>
-      <h3>Sign In</h3>
-      {error && <Message>{error}</Message>}
+      {error && <ToastContainer />}
       {loading && <Loader />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Button type="submit" variant="primary">
-          Sign In
-        </Button>
-      </Form>
-      <Row className="py-3">
-        <Col>
-          New Customer ?
-          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-            Register
-          </Link>
-        </Col>
-      </Row>
+      <Card className="shadow-lg bg-white mt-5 card-login">
+        <Card.Body>
+          <h3 className="text-center headingstyles">Welcome Back!</h3>
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="email">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Row className="py-1 ">
+              <Col>
+                <Button type="submit" className="btn-grad">
+                  Sign In
+                </Button>
+              </Col>
+              <Col className="d-flex justify-content-end">
+                <Link className="forgotpassword-btn" to="/forgot-password">
+                 <Button className="forgotpassword-btn">Forgot Password</Button> 
+                </Link>
+              </Col>
+            </Row>
+          </Form>
+          <Row className="py-3">
+            <Col>
+              New Customer ?
+              <Link
+                to={redirect ? `/register?redirect=${redirect}` : "/register"}
+              >
+                &nbsp;Register
+              </Link>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
     </FormContainer>
   );
 };

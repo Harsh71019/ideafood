@@ -5,6 +5,7 @@ import colors from "colors";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoute from "./routes/orderRoute.js";
+import feedbackRoute from "./routes/feedbackRoute.js";
 // import razorpayRoutes from "./routes/razorpayRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
@@ -29,27 +30,11 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoute);
 app.use("/api/upload", uploadRoutes);
-// app.use("/api/razorpay", razorpayRoutes);
+app.use("/api/feedback", feedbackRoute);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
-
-// app.post("/api/razorpay", async (req, res) => {
-//   const payment_capture = 1;
-//   const amount = 500;
-//   const currency = "INR";
-
-//   const options = {
-//     amount,
-//     currency,
-//     receipt: shortid.generate(),
-//     payment_capture,
-//   };
-
-//   const response = await razorpay.orders.create(options);
-//   console.log(response)
-// });
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));

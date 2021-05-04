@@ -1,3 +1,17 @@
-.image-product-screen{
-    
+.image-product-screen {
 }
+
+.br-10 {
+  border-radius: 10px;
+}
+
+.list-group-styles{
+    border-radius: 10px !important;
+}
+
+@media only screen and (max-width: 480px) {
+    .margintop-10{
+        margin-top: 10px;
+    }
+  }
+  

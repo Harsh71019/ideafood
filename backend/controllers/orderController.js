@@ -1,21 +1,31 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 import Product from "../models/orderModel.js";
-
+import RazorPay from "razorpay";
+import shortid from "shortid";
 //@desc create new order
 //@routes GET /api/orders
 // @access Private
 
 const addOrderItems = asyncHandler(async (req, res) => {
-  const {
-    orderItems,
-    shippingAddress,
-    paymentMethod,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+  const { orderItems, shippingAddress, paymentMethod } = req.body;
+
+  const itemsPrice = orderItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
+  );
+
+  console.log(itemsPrice);
+
+  const taxPrice = Number(0.15 * itemsPrice);
+
+  const shippingPrice = itemsPrice > 100 ? 0 : 100;
+
+  const totalPrice =
+    100 *
+    Math.round(Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice));
+
+  console.log(itemsPrice, shippingPrice, totalPrice, taxPrice);
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -47,6 +57,7 @@ const getOrderById = asyncHandler(async (req, res) => {
     "name email mobile"
   );
   if (order) {
+    console.log(order);
     res.json(order);
   } else {
     res.status(404);
@@ -93,7 +104,10 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access Private Admin
 
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("user", "id name");
+  const orders = await Order.find({})
+    .populate("user", "id name")
+    .sort({ _id: -1 });
+
   res.json(orders);
 });
 
@@ -116,6 +130,58 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   }
 });
 
+const razorpayOrderPay = asyncHandler(async (req, res) => {
+  var instance = new RazorPay({
+    key_id: process.env.RAZOR_PAY_KEYID,
+    key_secret: process.env.RAZOR_PAY_SECRETKEY,
+  });
+
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email mobile"
+  );
+
+  const currency = "INR";
+  const amount = order.totalPrice;
+  const receipt = shortid.generate();
+  const notes = {
+    desc: "nothing",
+  };
+
+  console.log(amount, currency, receipt, notes);
+  instance.orders.create(
+    { amount, currency, receipt, notes },
+    (error, order) => {
+      if (error) {
+        return res.status(500).json(error);
+      } else {
+        return res.status(200).json(order);
+      }
+    }
+  );
+});
+
+const razorpayOrderSuccess = asyncHandler(async (req, res) => {
+  const { orderID, paymentIdRazor, signature, orderId } = req.body;
+  const order = await Order.findById(orderId);
+  console.log(req.body);
+  console.log(order);
+  if (orderID === "" || paymentIdRazor === "" || signature === "") {
+    res.status(400).json("Payment Failed Please Try Again");
+  } else {
+    if (order) {
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResultRazor = {
+        orderIDRazor: orderID,
+        paymentIDRazor: paymentIdRazor,
+        signatureIDRazor: signature,
+      };
+      const updatedOrder = await order.save();
+    }
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
@@ -123,4 +189,6 @@ export {
   getMyOrders,
   getOrders,
   updateOrderToDelivered,
+  razorpayOrderPay,
+  razorpayOrderSuccess,
 };

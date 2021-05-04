@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Row, Button, Form, Col, Table, Container } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Table, Container, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
 import { listUsers, deleteUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
+import "../styles/tables.styles.css";
 
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -28,73 +28,94 @@ const UserListScreen = ({ history }) => {
   }, [dispatch, history, userInfo, successDelete]);
 
   const deleteHandler = (id) => {
-    if (window.confirm("are you sure")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this user ? (This cannot be undone!)"
+      )
+    ) {
       dispatch(deleteUser(id));
     }
   };
 
   return (
     <>
-      <Container>
-        <h1>Customers who have signed up or ordered from you</h1>
+      <div className="container">
         {loading ? (
           <Loader />
         ) : error ? (
           <Message>{error}</Message>
         ) : (
-          <Table striped bordered hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>EMAIL</th>
-                <th>MOBILE</th>
-                <th>ADMIN</th>
-                <th>EDIT OR DELETE USERS</th>
-              </tr>
-            </thead>
-            s
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.name}</td>
-                  <td>
-                    <a href={`mailto:${user.email}`}> {user.email} </a>
-                  </td>
-                  <td>
-                    <a href={`tel:${user.mobile}`}> {user.mobile} </a>
-                  </td>
-                  <td>
-                    {user.isAdmin ? (
-                      <i
-                        className="fas fa-check"
-                        style={{ color: "green" }}
-                      ></i>
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                      <Button variant="light" className="btn-sm">
-                        <i className="fas fa-edit"></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(user._id)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <Card className="card-login w-100 table-card-border shadow-lg">
+            <Card.Body className="px-0 pt-0 pb-2">
+              <h3 className="headingstyles text-center mt-3 mb-3">
+                Customers who have signed up or ordered from you
+              </h3>
+              <div class="table-responsive p-0">
+                <table className="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th className="th-border-none fontstylesth">ID</th>
+                      <th className="th-border-none fontstylesth">NAME</th>
+                      <th className="th-border-none fontstylesth">EMAIL</th>
+                      <th className="th-border-none fontstylesth">MOBILE</th>
+                      <th className="th-border-none fontstylesth">ADMIN</th>
+                      <th className="th-border-none fontstylesth">EDIT</th>
+                      <th className="th-border-none fontstylesth">DELETE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user._id}>
+                        <td>{user._id}</td>
+                        <td>{user.name}</td>
+                        <td>
+                          <a className="td-email" href={`mailto:${user.email}`}>
+                            {" "}
+                            {user.email}{" "}
+                          </a>
+                        </td>
+                        <td>
+                          <a className="td-mobile" href={`tel:${user.mobile}`}>
+                            {" "}
+                            {user.mobile}{" "}
+                          </a>
+                        </td>
+                        <td>
+                          {user.isAdmin ? (
+                            <span className="badge bg-gradient-success">
+                              ADMIN
+                            </span>
+                          ) : (
+                            <span className="badge bg-gradient-danger">
+                              NOT ADMIN
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                            <a className="">
+                              <i class="fas fa-user-edit mr-2"></i> Edit
+                            </a>
+                          </LinkContainer>
+                        </td>
+                        <td>
+                          <a
+                            className="delete-button"
+                            onClick={() => deleteHandler(user._id)}
+                          >
+                            <i class="far fa-trash-alt mr-2"></i>
+                            Delete
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card.Body>
+          </Card>
         )}
-      </Container>
+      </div>
     </>
   );
 };

@@ -11,6 +11,7 @@ import { Helmet } from "react-helmet";
 import Paginate from "../components/Paginate";
 import Meta from "../components/Meta";
 import { Link } from "react-router-dom";
+import ContactUs from "../components/ContactUs";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -30,7 +31,6 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
-
       <Hero />
       <HeaderText headertext="checkout our products" />
       <Container className="my-3">
@@ -54,6 +54,7 @@ const HomeScreen = ({ match }) => {
             />
           </>
         )}
+        <ContactUs />
       </Container>
     </>
   );

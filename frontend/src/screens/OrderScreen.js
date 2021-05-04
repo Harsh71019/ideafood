@@ -12,16 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
+import { getOrderDetails, razorSuccess } from "../actions/orderActions";
 import axios from "axios";
-import { PayPalButton } from "react-paypal-button-v2";
 import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
-
 const OrderScreen = ({ match }) => {
-  const orderId = match.params.id;
-  const [sdkReady, setSdkReady] = useState(false);
+  const [payment, setPayment] = useState("");
+  const [razorPayLoading, setRazorPayLoading] = useState(false);
+
   const dispatch = useDispatch();
+  const orderId = match.params.id;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
@@ -29,48 +29,64 @@ const OrderScreen = ({ match }) => {
   const orderPay = useSelector((state) => state.orderPay);
   const { success: successPay, loading: loadingPay } = orderPay;
 
-  if (!loading) {
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2);
-    };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-    //calculate Prices
+  const razorPay = useSelector((state) => state.razorPay);
+  const { success: razorSuccessFull } = razorPay;
 
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    );
-  }
 
   useEffect(() => {
-    const addPaypalScript = async () => {
-      const { data: clientId } = await axios.get("/api/config/paypal");
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-    if (!order || successPay) {
-      dispatch({ type: ORDER_PAY_RESET });
-      dispatch(getOrderDetails(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPaypalScript();
-      } else {
-        setSdkReady(true);
-      }
-    }
-  }, [dispatch, orderId, successPay, order]);
+    dispatch(getOrderDetails(match.params.id));
+    console.log(razorSuccessFull);
+  }, [dispatch, razorPayLoading]);
+  const RazorPayBuyHandler = async (e) => {
+    e.preventDefault();
 
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
-    dispatch(payOrder(orderId, paymentResult));
+    setRazorPayLoading(true);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const res = await axios.get(
+      `http://localhost:5000/api/orders/razorpay/${orderId}`,
+      config
+    );
+
+    if (res.status !== 200) {
+      return;
+    }
+    var options = {
+      key: "rzp_test_MVoe6kMealAgpv",
+      amount: Number(res.data.amount),
+      currency: res.data.currency,
+      name: "Idea Food",
+      description: "Hey suckka",
+      image: "https://example.com/your_logo",
+      order_id: res.data.id,
+      handler: function (response) {
+        setPayment(true);
+        dispatch(
+          razorSuccess(
+            response.razorpay_order_id,
+            response.razorpay_payment_id,
+            response.razorpay_signature,
+            orderId
+          )
+        );
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+
+    rzp1.on("payment.failed", function (response) {
+      console.log(response.error);
+    });
   };
 
-
+  console.log(order)
 
   return loading ? (
     <Container className="mt-58">
@@ -90,10 +106,10 @@ const OrderScreen = ({ match }) => {
               <ListGroup.Item>
                 <h4>Shipping</h4>
                 <p>
-                  <strong>Name:</strong> {order.user.name}{" "}
+                  <strong>Name:</strong> {order.user.name}
                 </p>
                 <p>
-                  <strong>Mobile:</strong> {order.user.mobile}{" "}
+                  <strong>Mobile:</strong> {order.user.mobile}
                 </p>
                 <p>
                   <strong>Email:</strong>
@@ -119,7 +135,7 @@ const OrderScreen = ({ match }) => {
                 <h5>Payment Method</h5>
                 <p>
                   <strong>Method: </strong>
-                  {order.paymentMethod}
+                  {/* {order.paymentMethod} */}
                 </p>
                 {order.isPaid ? (
                   <Message variant="success">Paid on {order.paidAt}</Message>
@@ -190,27 +206,21 @@ const OrderScreen = ({ match }) => {
                 <ListGroup.Item>
                   <Row>
                     <Col>Total</Col>
-                    <Col>₹{order.totalPrice}</Col>
+                    <Col>₹{order.totalPrice / 100}</Col>
                   </Row>
                 </ListGroup.Item>
                 {!order.isPaid && (
                   <ListGroup.Item>
-                    {loadingPay && <Loader />}
-                    {!sdkReady ? (
-                      <Loader />
-                    ) : (
-                      <PayPalButton
-                        amount={order.totalPrice}
-                        onSuccess={successPaymentHandler}
-                      />
-                    )}
+                    <Button
+                      className="btn btn-info w-100"
+                      onClick={RazorPayBuyHandler}
+                      disabled={razorPayLoading}
+                      type="submit"
+                    >
+                      RazorPay
+                    </Button>
                   </ListGroup.Item>
                 )}
-                <ListGroup.Item>
-                  <Button className="btn btn-info">
-                    RazorPay
-                  </Button>
-                </ListGroup.Item>
               </ListGroup>
             </Card>
           </Col>

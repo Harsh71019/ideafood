@@ -5,7 +5,6 @@ import {
   Col,
   ListGroup,
   Image,
-  Card,
   Button,
   Container,
   Form,
@@ -37,10 +36,11 @@ const ProductScreen = ({ match, history }) => {
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
 
   const {
-    loading: loadingProductReview,
+    // loading: loadingProductReview,
     error: errorProductReview,
     success: successProductReview,
   } = productReviewCreate;
+
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -72,7 +72,7 @@ const ProductScreen = ({ match, history }) => {
 
   return (
     <>
-      <Container className="mt-5">
+      <Container className="mt-1">
         <Link to="/" className="btn btn-danger my-3">
           Go Back
         </Link>
@@ -90,11 +90,11 @@ const ProductScreen = ({ match, history }) => {
                   src={product.image}
                   alt={product.name}
                   fluid
-                  className="image-product-screen"
+                  className="image-product-screen br-10"
                 />
               </Col>
               <Col md={3}>
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="list-group-styles shadow-lg margintop-10">
                   <ListGroup.Item>
                     <h2>{product.name}</h2>
                   </ListGroup.Item>
@@ -104,19 +104,19 @@ const ProductScreen = ({ match, history }) => {
                       text={`${product.numReviews} reviews`}
                     />
                   </ListGroup.Item>
-                  <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+                  <ListGroup.Item>Price: ₹{product.price}</ListGroup.Item>
                   <ListGroup.Item>
                     Description: {product.description}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
               <Col md={3}>
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="list-group-styles shadow-lg margintop-10">
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>${product.price}</strong>
+                        <strong>₹{product.price}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -171,9 +171,9 @@ const ProductScreen = ({ match, history }) => {
             </Row>
             <Row>
               <Col md={6}>
-                <h1>Reviews</h1>
+                <h1 className="margintop-10 headstyles">Reviews</h1>
                 {product.reviews.length === 0 && <Message>No Reviews</Message>}
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="list-group-styles shadow-lg margintop-10">
                   {product.reviews.map((review) => (
                     <ListGroup.Item key={review._id}>
                       <strong>{review.name}</strong>

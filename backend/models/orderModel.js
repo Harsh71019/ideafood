@@ -21,6 +21,19 @@ const orderSchema = mongoose.Schema(
       },
     ],
 
+    orderCart: [
+      {
+        productID: {
+          type: String,
+          required: true,
+        },
+        productQty: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+
     shippingAddress: {
       address: {
         type: String,
@@ -49,12 +62,22 @@ const orderSchema = mongoose.Schema(
       update_time: { type: String },
       email_address: { type: String },
     },
+    paymentResultRazor: {
+      orderIDRazor: { type: String },
+      paymentIDRazor: { type: String },
+      signatureIDRazor: { type: String },
+    },
     taxPrice: {
       type: Number,
       required: true,
       default: 0.0,
     },
     shippingPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    itemsPrice: {
       type: Number,
       required: true,
       default: 0.0,
