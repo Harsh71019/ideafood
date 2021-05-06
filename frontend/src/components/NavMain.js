@@ -59,7 +59,7 @@ const NavMain = () => {
                     </LinkContainer>
                     <LinkContainer to="/cart">
                       <Nav.Link className="nav-font-styles">
-                        <i className="fa fa-shopping-cart"></i> Cart &nbsp;(
+                        <i className="fa fa-shopping-cart"></i> Cart&nbsp;(
                         {cartItems.length})
                       </Nav.Link>
                     </LinkContainer>
@@ -67,6 +67,9 @@ const NavMain = () => {
                       <NavDropdown title={userInfo.name} id="username">
                         <LinkContainer to="/profile">
                           <NavDropdown.Item>Profile</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/profilemyorders">
+                          <NavDropdown.Item>My Orders</NavDropdown.Item>
                         </LinkContainer>
                         <NavDropdown.Item onClick={logoutHandler}>
                           Logout

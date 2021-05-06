@@ -2,6 +2,9 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGIN_GOOGLE_FAIL,
+  USER_LOGIN_GOOGLE_REQUEST,
+  USER_LOGIN_GOOGLE_SUCCESS,
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_SUCCESS,
@@ -65,7 +68,6 @@ export const login = (email, password) => async (dispatch) => {
 
     localStorage.setItem("userInfo", JSON.stringify(data));
     toast.success("Check Your Email");
-
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -131,6 +133,51 @@ export const register = (name, email, password, mobile) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+    toast.error(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    );
+  }
+};
+
+export const googleLogin = (tokenId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_LOGIN_GOOGLE_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/users/googlelogin`,
+      { tokenId },
+      config
+    );
+
+    dispatch({
+      type: USER_LOGIN_GOOGLE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
+
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_LOGIN_GOOGLE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -353,10 +400,9 @@ export const forgotPasswordAction = (email) => async (dispatch) => {
   }
 };
 
-
-
-
-export const resetPasswordAction = ( resetLink, newPassword ) => async (dispatch) => {
+export const resetPasswordAction = (resetLink, newPassword) => async (
+  dispatch
+) => {
   try {
     dispatch({
       type: USER_RESET_PASSWORD_REQUEST,
@@ -370,7 +416,7 @@ export const resetPasswordAction = ( resetLink, newPassword ) => async (dispatch
 
     const { data } = await axios.put(
       `/api/users/reset-password`,
-      {  resetLink, newPassword  },
+      { resetLink, newPassword },
       config
     );
 
@@ -394,4 +440,3 @@ export const resetPasswordAction = ( resetLink, newPassword ) => async (dispatch
     );
   }
 };
-

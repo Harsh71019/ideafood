@@ -1,0 +1,47 @@
+.cart-image-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 7px;
+}
+
+.image-cart {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.cart-delete-icon {
+  color: red;
+  background: white;
+  font-size: 20px;
+}
+
+.cart-delete-button {
+  background-color: white !;
+}
+
+.cart-product-link {
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cart-price-link {
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cart-subtotal-text{
+    color: black;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.cart-subtotal-price-link {
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  

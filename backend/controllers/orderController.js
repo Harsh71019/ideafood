@@ -25,7 +25,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     100 *
     Math.round(Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice));
 
-  console.log(itemsPrice, shippingPrice, totalPrice, taxPrice);
+  console.log(itemsPrice, shippingPrice, totalPrice, taxPrice, shippingAddress);
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -95,7 +95,8 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access Private
 
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
+  const orders = await Order.find({ user: req.user._id }).sort({ _id: -1 });
+
   res.json(orders);
 });
 
@@ -121,6 +122,42 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+//@desc update order to recieved
+//@routes GET /api/orders/:ID/orderrecieved
+// @access Private/admin
+
+const updateOrderToRecieved = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.isOrderRecieved = true;
+    order.orderRecievedAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+//@desc update order to recieved
+//@routes GET /api/orders/:ID/orderrecieved
+// @access Private/admin
+
+const updateOrderToInTransit = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.orderInTransit = true;
+    order.orderInTransitAt = Date.now();
 
     const updatedOrder = await order.save();
     res.json(updatedOrder);
@@ -182,13 +219,50 @@ const razorpayOrderSuccess = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc fetch
+//@routes GET http://localhost:5000/api/users/getusercount
+// @access private admin
+
+const getOrderCount = asyncHandler(async (req, res) => {
+  const orderCount = await Order.countDocuments((count) => count);
+  console.log(orderCount);
+
+  if (orderCount) {
+    res.json({ orderCount: orderCount });
+  } else {
+    res.status(404);
+    throw new Error("orders not there");
+  }
+});
+
+//@desc fetch
+//@routes GET http://localhost:5000/api/orders/totalsale
+// @access private admin
+
+const getTotalSales = asyncHandler(async (req, res) => {
+  const totalSales = await Order.aggregate([
+    { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } },
+  ]);
+
+  if (totalSales) {
+    res.json({ totalSales: totalSales.pop().totalSales });
+  } else {
+    res.status(404);
+    throw new Error("totalSales count not be generated");
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
   getMyOrders,
   getOrders,
+  updateOrderToRecieved,
+  updateOrderToInTransit,
   updateOrderToDelivered,
   razorpayOrderPay,
   razorpayOrderSuccess,
+  getOrderCount,
+  getTotalSales,
 };

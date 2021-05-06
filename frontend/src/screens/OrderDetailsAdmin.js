@@ -15,12 +15,16 @@ import Message from "../components/Message";
 import {
   getOrderDetails,
   payOrder,
-  deliverOrder,
+  deliverOrderAction,
+  recieveOrderAction,
+  orderTransitAction,
 } from "../actions/orderActions";
 import axios from "axios";
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
+  ORDER_TRANSIT_RESET,
+  ORDER_RECEIVE_RESET,
 } from "../constants/orderConstants";
 import moment from "moment-timezone";
 
@@ -39,6 +43,12 @@ const OrderDetailsAdmin = ({ match, history }) => {
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { success: successDeliver, loading: loadingDeliver } = orderDeliver;
+
+  const orderRecieve = useSelector((state) => state.orderRecieve);
+  const { success: successReceive, loading: loadingReceive } = orderRecieve;
+
+  const orderTransit = useSelector((state) => state.orderTransit);
+  const { success: successTransit, loading: loadingTransit } = orderTransit;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -59,17 +69,29 @@ const OrderDetailsAdmin = ({ match, history }) => {
       history.push("/login");
     }
 
-    if (!order  || successDeliver) {
+    if (!order || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
-    } 
+    }
+    if (!order || successReceive) {
+      dispatch({ type: ORDER_RECEIVE_RESET });
+      dispatch(getOrderDetails(orderId));
+    }
+    if (!order || successTransit) {
+      dispatch({ type: ORDER_TRANSIT_RESET });
+      dispatch(getOrderDetails(orderId));
+    }
   }, [dispatch, successPay]);
 
-
-
   const deliverHandler = () => {
-    dispatch(deliverOrder(order));
+    dispatch(deliverOrderAction(order));
+  };
+  const receiveHandler = () => {
+    dispatch(recieveOrderAction(order));
+  };
+  const transitHandler = () => {
+    dispatch(orderTransitAction(order));
   };
 
   return loading ? (
@@ -110,6 +132,28 @@ const OrderDetailsAdmin = ({ match, history }) => {
                   {order.shippingAddress.country}
                 </p>
 
+                {order.isOrderRecieved ? (
+                  <Message variant="success">
+                    Order Seen by Seller on&nbsp;
+                    {moment(order.deliveredAt)
+                      .tz("Asia/Kolkata")
+                      .format("dddd, MMMM Do YYYY, hh:mm:ss a")}
+                  </Message>
+                ) : (
+                  <Message variant="danger">
+                    Order not Acknowledged by Seller
+                  </Message>
+                )}
+                {order.orderInTransit ? (
+                  <Message variant="success">
+                    Your order is on the way!&nbsp;
+                    {moment(order.deliveredAt)
+                      .tz("Asia/Kolkata")
+                      .format("dddd, MMMM Do YYYY, hh:mm:ss a")}
+                  </Message>
+                ) : (
+                  <Message variant="danger">Not in Transit</Message>
+                )}
                 {order.isDelivered ? (
                   <Message variant="success">
                     Delivered on&nbsp;
@@ -217,12 +261,37 @@ const OrderDetailsAdmin = ({ match, history }) => {
                     )}
                   </ListGroup.Item>
                 )} */}
+
+                {loadingReceive && <Loader />}
+                {!order.isOrderRecieved && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn-primary btn-block"
+                      onClick={receiveHandler}
+                    >
+                      Mark as Order Received
+                    </Button>
+                  </ListGroup.Item>
+                )}
+                {loadingTransit && <Loader />}
+                {!order.orderInTransit && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn-warning btn-block"
+                      onClick={transitHandler}
+                    >
+                      Mark as in Transit
+                    </Button>
+                  </ListGroup.Item>
+                )}
                 {loadingDeliver && <Loader />}
                 {!order.isDelivered && (
                   <ListGroup.Item>
                     <Button
                       type="button"
-                      className="btn btn-block"
+                      className="btn-success btn-block"
                       onClick={deliverHandler}
                     >
                       Mark as Delivered

@@ -1,0 +1,15 @@
+.accordian-main {
+  border-radius: 10px !important;
+  background-color: white !important;
+}
+
+.accordian-main-toggle {
+  background-color: white !important;
+  height: 100px;
+}
+
+
+.accordian-main-card {
+  background-color: white !important;
+  border-radius: 10px !important;
+}

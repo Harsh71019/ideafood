@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Row, Button, Form, Col, Container, Table } from "react-bootstrap";
+import {
+  Row,
+  Button,
+  Form,
+  Col,
+  Container,
+  Table,
+  Card,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
+import FormContainer from "../components/FormContainer";
 
 const ProfileScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
@@ -61,16 +70,18 @@ const ProfileScreen = ({ location, history }) => {
     }
   };
   return (
-    <Container>
-      <Row className="mt-5">
-        <Col md={3}>
-          <h3>Your Details</h3>
-          {message && <Message variant="danger">{message}</Message>}
-          {error && <Message>{error}</Message>}
-          {success && (
-            <Message variant="success">Profile update successfully</Message>
-          )}
-          {loading && <Loader />}
+    <FormContainer>
+      {loading && <Loader />}
+
+      {message && <Message variant="danger">{message}</Message>}
+      {error && <Message>{error}</Message>}
+      {success && (
+        <Message variant="success">Profile update successfully</Message>
+      )}
+      <Card className="w-100 card-login shadow-lg">
+        <Card.Body>
+          <h3 className="headingstyles text-center">Your Details</h3>
+
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
@@ -119,66 +130,13 @@ const ProfileScreen = ({ location, history }) => {
                 onChange={(e) => setMobile(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Button type="submit" variant="primary">
+            <Button type="submit" className="btn-grad mt-2">
               Update
             </Button>
           </Form>
-        </Col>
-        <Col md={9}>
-          <h5>My Orders</h5>
-          {loadingOrders ? (
-            <Loader />
-          ) : errorOrders ? (
-            <Message variant="danger">{errorOrders}</Message>
-          ) : (
-            <Table striped bordered hover responsive className="table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>DATE</th>
-                  <th>TOTAL</th>
-                  <th>PAID</th>
-                  <th>DELIVERED</th>
-                  <th>View Details</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order._id}>
-                    <td>{order._id}</td>
-                    <td>{order.createdAt.substring(0, 10)}</td>
-                    <td>₹{order.totalPrice / 100}</td>
-                    <td>
-                      {order.isPaid ? (
-                        order.paidAt.substring(0, 10)
-                      ) : (
-                        <i className="fas fa-times" style={{ color: "red" }}></i>
-                      )}
-                    </td>
-                    <td>
-                      {order.isDelivered ? (
-                        order.deliveredAt.substring(0, 10)
-                      ) : (
-                        <i className="fas fa-times" style={{ color: "red" }}></i>
-                      )}
-                    </td>
-
-                    <td>
-                      <LinkContainer to={`/orders/${order._id}`}>
-                        <Button className="btn-sm" variant="light">
-                          Details
-                        </Button>
-                      </LinkContainer>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
-        </Col>
-      </Row>
-    </Container>
+        </Card.Body>
+      </Card>
+    </FormContainer>
   );
 };
 

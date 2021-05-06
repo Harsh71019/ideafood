@@ -13,21 +13,52 @@
   border-color: #e9ecef;
 }
 
-.td-email{
-  color: black;
-}
-.td-mobile{
-  color: black;
+.text-table {
+  font-weight: 600;
+  font-size: 14px;
 }
 
+.create-button-product {
+  background-image: linear-gradient(
+    to right,
+    #0cebeb 0%,
+    #20e3b2 51%,
+    #0cebeb 100%
+  );
+  padding: 7px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+  border: none;
+  font-weight: 600;
+  outline: none;
+}
+
+.create-button-product:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.td-email {
+  color: black;
+}
+.td-mobile {
+  color: black;
+}
 
 .th-border-none {
   border: none !important;
 }
 
-.fontstylesth{
-    color: #8392ab;
-    font-size: 12px;
+.fontstylesth {
+  color: #8392ab;
+  font-size: 12px;
 }
 
 .table-card-border {
@@ -43,17 +74,40 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.delete-button{
-  color:red;
+.delete-button-tables {
+  color: red;
   cursor: pointer;
   background: transparent;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
 }
 
-.delete-button:hover{
-  color:rgb(197, 6, 6);
+.delete-button-tables:hover {
+  color: rgb(197, 6, 6);
   background: transparent;
 }
 
+.edit-button-tables {
+  color: #252f40;
+  cursor: pointer;
+  background: transparent;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.edit-button-tables:hover {
+  color: #0c0e13;
+}
+
+.button-view-details-tables {
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  border-radius: 7px;
+  padding: 5px;
+}
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {

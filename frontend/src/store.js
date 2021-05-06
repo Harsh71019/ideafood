@@ -20,6 +20,7 @@ import {
   userUpdateReducer,
   forgotPasswordReducer,
   resetPasswordReducer,
+  userGoogleReducer,
 } from "./reducers/userReducers";
 import {
   orderCreateReducer,
@@ -27,6 +28,8 @@ import {
   orderPayReducer,
   orderListMyReducer,
   orderListReducer,
+  orderRecieveReducer,
+  orderTransitReducer,
   orderDeliverReducer,
   razorPayReducer,
 } from "./reducers/orderReducers";
@@ -51,11 +54,14 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  userGoogle:userGoogleReducer,
   orderCreate: orderCreateReducer,
   orderDetails: ordersDetailsReducer,
   orderPay: orderPayReducer,
   orderListMy: orderListMyReducer,
   orderList: orderListReducer,
+  orderRecieve: orderRecieveReducer,
+  orderTransit: orderTransitReducer,
   orderDeliver: orderDeliverReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,

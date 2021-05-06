@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Row,
-  Button,
-  Col,
-  Table,
-  Container,
-} from "react-bootstrap";
+import { Row, Button, Col, Table, Card, Container } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
@@ -76,16 +70,6 @@ const ProductListScreen = ({ history, match }) => {
   return (
     <>
       <Container className="mt-5">
-        <Row className="align-items-center">
-          <Col>
-            <h1>Products you have listed in your Inventory</h1>
-          </Col>
-          <Col classname="text-right">
-            <Button className="my-3" onClick={createProductHandler}>
-              <i className="fas fa-plus"></i> Create Product
-            </Button>
-          </Col>
-        </Row>
         {loadingDelete && <Loader />}
         {deleteError && <Message variant="danger">{deleteError}</Message>}
 
@@ -97,43 +81,72 @@ const ProductListScreen = ({ history, match }) => {
           <Message>{error}</Message>
         ) : (
           <>
-            <Table striped bordered hover responsive className="table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>NAME</th>
-                  <th>PRICE</th>
-                  <th>CATEGORY</th>
-                  <th>BRAND</th>
-                  <th>EDIT OR DELETE PRODUCTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product._id}>
-                    <td>{product._id}</td>
-                    <td>{product.name}</td>
-                    <td>₹{product.price}</td>
-                    <td>{product.category}</td>
-                    <td>{product.brand}</td>
-                    <td>
-                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                        <Button variant="light" className="btn-sm">
-                          <i className="fas fa-edit"></i>
-                        </Button>
-                      </LinkContainer>
-                      <Button
-                        variant="danger"
-                        className="btn-sm"
-                        onClick={() => deleteProducts(product._id)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <Card className="card-login w-100 table-card-border shadow-lg">
+              <Card.Body className="px-0 pt-0 pb-2">
+                <div className="row">
+                  <div className="col">
+                    <h3 className="headingstyles text-center mt-3 mb-3">
+                      Products in Inventory
+                    </h3>
+                  </div>
+                  <div className="col text-right d-flex justify-content-end">
+                    <button className="my-3 mr-5 create-button-product" onClick={createProductHandler}>
+                      <i className="fas fa-plus"></i> Create Product
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive p-0">
+                  <table className="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th className="th-border-none fontstylesth">ID</th>
+                        <th className="th-border-none fontstylesth">NAME</th>
+                        <th className="th-border-none fontstylesth">PRICE</th>
+                        <th className="th-border-none fontstylesth">
+                          CATEGORY
+                        </th>
+                        <th className="th-border-none fontstylesth">BRAND</th>
+                        <th className="th-border-none fontstylesth">
+                          EDIT PRODUCTS
+                        </th>
+                        <th className="th-border-none fontstylesth">
+                          DELETE PRODUCTS
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {products.map((product) => (
+                        <tr key={product._id}>
+                          <td className="text-table">{product._id}</td>
+                          <td className="text-table">{product.name}</td>
+                          <td className="text-table">₹{product.price}</td>
+                          <td className="text-table">{product.category}</td>
+                          <td className="text-table">{product.brand}</td>
+                          <td>
+                            <LinkContainer
+                              to={`/admin/product/${product._id}/edit`}
+                            >
+                              <a className="edit-button-tables">
+                                <i class="fas fa-pencil-alt mr-2"></i> Edit
+                              </a>
+                            </LinkContainer>
+                          </td>
+                          <td>
+                            <a
+                              className="delete-button-tables"
+                              onClick={() => deleteProducts(product._id)}
+                            >
+                              <i class="far fa-trash-alt mr-2"></i>
+                              Delete
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card.Body>
+            </Card>
             <Paginate page={page} pages={pages} isAdmin={true} />
           </>
         )}

@@ -6,7 +6,7 @@ import Product from "../models/productModel.js";
 // @access Public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 10;
+  const pageSize = 12;
   const page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? {
@@ -148,6 +148,30 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc fetch
+//@routes GET http://localhost:5000/api/products/getproductcount
+// @access private admin
+
+const getProductCount = asyncHandler(async (req, res) => {
+  const productCount = await Product.countDocuments((count) => count);
+
+  if (productCount) {
+    res.json({ productCount: productCount });
+  } else {
+    res.status(404);
+    throw new Error("Products not there");
+  }
+});
+
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  res.json(products);
+});
+
 export {
   getProductbyId,
   getProducts,
@@ -155,4 +179,6 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getProductCount,
+  getTopProducts,
 };

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Button, Row, Col, Image, Card, ListGroup } from "react-bootstrap";
+import { Button, Row, Col, Image, Card, ListGroup ,Container} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Link } from "react-router-dom";
@@ -9,10 +9,9 @@ import { createOrder } from "../actions/orderActions";
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-
-  // const addDecimals = (num) => {
-  //   return (Math.round(num)).toFixed(2);
-  // };
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+  };
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -24,17 +23,18 @@ const PlaceOrderScreen = ({ history }) => {
 
   //calculate Prices
 
-  cart.itemsPrice = cart.cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
+  cart.itemsPrice = addDecimals(
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
 
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
-  cart.taxPrice = Number(0.15 * cart.itemsPrice);
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
+  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
 
-  cart.totalPrice = Math.round(
-    Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
-  );
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -52,12 +52,16 @@ const PlaceOrderScreen = ({ history }) => {
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
       })
     );
   };
 
   return (
-    <Fragment>
+    <Container>
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
@@ -157,7 +161,7 @@ const PlaceOrderScreen = ({ history }) => {
           </Card>
         </Col>
       </Row>
-    </Fragment>
+    </Container>
   );
 };
 

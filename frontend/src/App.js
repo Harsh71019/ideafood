@@ -22,6 +22,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import FeedbackAdminScreen from "./screens/FeedbackAdminScreen";
 import DashboardAdmin from "./screens/DashboardAdmin"
+import ProfileMyOrders from "./screens/ProfileMyOrders"
 import "./App.css";
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
         <Route path="/profile" component={ProfileScreen} />
+        <Route path="/profilemyorders" component={ProfileMyOrders} />
         <Route path="/orders/:id" component={OrderScreen} />
         <Route path="/placeorder" component={PlaceOrderScreen} />
         <Route path="/shipping" component={ShippingScreen} />

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Form, Button, Col } from "react-bootstrap";
+import { Form, Button, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
+import "../styles/paymentscreen.styles.css";
+import RazorPay from "../images/razorpay.svg";
+import COD from "../images/cod.png";
 
 const PaymentScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
@@ -22,7 +25,9 @@ const PaymentScreen = ({ history }) => {
     history.push("/shipping");
   }
 
-  const [paymentMethod, setPaymentMethod] = useState("Cash On Delivery");
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  console.log(paymentMethod);
 
   const dispatch = useDispatch();
 
@@ -37,35 +42,56 @@ const PaymentScreen = ({ history }) => {
 
       <h3>Payment Method</h3>
 
-      <Form onSubmit={submitHandler}>
-        <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
+      <form onSubmit={submitHandler}>
+        <Row>
+          <Col>
+            <label className="card-radio">
+              <input
+                name="plan"
+                className="radio"
+                type="radio"
+                value="RazorPay"
+                id="RazorPay"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+
+              <span className="plan-details">
+                <span className="plan-type">Razorpay</span>
+                <img
+                  className="d-block w-100 image-hero"
+                  src={RazorPay}
+                  alt="Razorpay"
+                />
+              </span>
+            </label>
+          </Col>
 
           <Col>
-            <Form.Check
-              name="paymentMethod"
-              id="RazorPay"
-              type="radio"
-              label="RazorPay"
-              value="RazorPay"
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
+            <label className="card-radio">
+              <input
+                name="plan"
+                className="radio"
+                type="radio"
+                value="Cash On Delivery"
+                id="Cash On Delivery"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
 
-            <Form.Check
-              name="paymentMethod"
-              id="CashOnDelivery"
-              type="radio"
-              label="Cash on Delivery"
-              value="CashOnDelivery"
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
+              <span className="plan-details" aria-hidden="true">
+                <span className="plan-type">COD</span>
+                <img
+                  className="d-block w-100 image-hero"
+                  src={COD}
+                  alt="Cash On Delivery"
+                />
+              </span>
+            </label>
           </Col>
-        </Form.Group>
-        <Button type="submit" variant="primary" onClick={submitHandler}>
+        </Row>
+        <Button type="submit" className="btn-grad mt-3">
           Continue
         </Button>
-      </Form>
+      </form>
     </FormContainer>
   );
 };

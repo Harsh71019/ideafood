@@ -95,10 +95,27 @@ const orderSchema = mongoose.Schema(
     paidAt: {
       type: Date,
     },
+    isOrderRecieved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    orderInTransit: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isDelivered: {
       type: Boolean,
       required: true,
       default: false,
+    },
+
+    orderRecievedAt: {
+      type: Date,
+    },
+    orderInTransitAt: {
+      type: Date,
     },
     deliveredAt: {
       type: Date,
@@ -111,4 +128,4 @@ const orderSchema = mongoose.Schema(
 
 const Order = mongoose.model("Order", orderSchema);
 
-export default Order;
+export default Order;``

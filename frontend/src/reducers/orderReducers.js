@@ -24,6 +24,14 @@ import {
   RAZOR_ORDER_FAIL,
   RAZOR_ORDER_SUCCESS,
   RAZOR_ORDER_REQUEST,
+  ORDER_RECEIVE_REQUEST,
+  ORDER_RECEIVE_SUCCESS,
+  ORDER_RECEIVE_FAIL,
+  ORDER_RECEIVE_RESET,
+  ORDER_TRANSIT_REQUEST,
+  ORDER_TRANSIT_SUCCESS,
+  ORDER_TRANSIT_FAIL,
+  ORDER_TRANSIT_RESET,
 } from "../constants/orderConstants";
 import { USER_DETAILS_RESET } from "../constants/userConstants";
 
@@ -165,6 +173,56 @@ export const orderDeliverReducer = (state = {}, action) => {
         error: action.payload,
       };
     case ORDER_DELIVER_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+export const orderRecieveReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_RECEIVE_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ORDER_RECEIVE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case ORDER_RECEIVE_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case ORDER_RECEIVE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+export const orderTransitReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_TRANSIT_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ORDER_TRANSIT_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case ORDER_TRANSIT_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case ORDER_TRANSIT_RESET:
       return {};
 
     default:

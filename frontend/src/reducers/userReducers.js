@@ -31,6 +31,9 @@ import {
   USER_RESET_PASSWORD_FAIL,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_REQUEST,
+  USER_LOGIN_GOOGLE_FAIL,
+  USER_LOGIN_GOOGLE_REQUEST,
+  USER_LOGIN_GOOGLE_SUCCESS,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -56,6 +59,19 @@ export const userRegisterReducer = (state = {}, action) => {
     case USER_REGISTER_SUCCESS:
       return { loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userGoogleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_LOGIN_GOOGLE_REQUEST:
+      return { loading: true };
+    case USER_LOGIN_GOOGLE_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case USER_LOGIN_GOOGLE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

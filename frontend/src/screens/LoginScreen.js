@@ -9,6 +9,7 @@ import { login } from "../actions/userActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/loginscreen.styles.css";
+import LoginImage from "../images/LoginImage.svg";
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
@@ -35,7 +36,6 @@ const LoginScreen = ({ location, history }) => {
     //Dispatch Login
     dispatch(login(email, password));
   };
-
 
   return (
     <FormContainer>
@@ -72,7 +72,9 @@ const LoginScreen = ({ location, history }) => {
               </Col>
               <Col className="d-flex justify-content-end">
                 <Link className="forgotpassword-btn" to="/forgot-password">
-                 <Button className="forgotpassword-btn">Forgot Password</Button> 
+                  <Button className="forgotpassword-btn">
+                    Forgot Password
+                  </Button>
                 </Link>
               </Col>
             </Row>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -92,11 +92,9 @@ const ProductEditScreen = ({ match, history }) => {
   return (
     <>
       <FormContainer>
-        <Link to="/admin/productlist" className="btn btn-light my-3">
+        <Link to="/admin/productlist" className="btn btn-danger my-3">
           Go Back
         </Link>
-
-        <h3>Edit Product</h3>
 
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
@@ -106,83 +104,89 @@ const ProductEditScreen = ({ match, history }) => {
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="Price">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="Price"
-                placeholder="Enter Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+          <Card className="w-100 card-login shadow-lg">
+            <Card.Body>
+              <h3 className="headingstyles text-center">Edit Product</h3>
 
-            <Form.Group controlId="brand">
-              <Form.Label>brand</Form.Label>
-              <Form.Control
-                type="brand"
-                placeholder="Enter brand"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="image">
-              <Form.Label>Upload Image</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Upload Image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
-              <Form.File
-                id="image-file"
-                label="Choose File"
-                custom
-                onChange={uploadFileHandler}
-              ></Form.File>
-              {uploading && <Loader />}
-            </Form.Group>
+              <Form onSubmit={submitHandler}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="Enter Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="Price">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="Price"
+                    placeholder="Enter Price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-            <Form.Group controlId="Category">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="Description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="CountInStock">
-              <Form.Label>CountInStock</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter CountInStock"
-                value={countInStock}
-                onChange={(e) => setCountInStock(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Button type="submit " variant="primary">
-              Update Product
-            </Button>
-          </Form>
+                <Form.Group controlId="brand">
+                  <Form.Label>brand</Form.Label>
+                  <Form.Control
+                    type="brand"
+                    placeholder="Enter brand"
+                    value={brand}
+                    onChange={(e) => setBrand(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="image">
+                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Upload Image"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                  ></Form.Control>
+                  <Form.File
+                    id="image-file"
+                    label="Choose File"
+                    custom
+                    onChange={uploadFileHandler}
+                  ></Form.File>
+                  {uploading && <Loader />}
+                </Form.Group>
+
+                <Form.Group controlId="Category">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="Description">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="CountInStock">
+                  <Form.Label>CountInStock</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter CountInStock"
+                    value={countInStock}
+                    onChange={(e) => setCountInStock(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Button type="submit" className="btn-grad">
+                  Update Product
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
         )}
       </FormContainer>
     </>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Table, Container, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import SideNavDashBoard from "../components/SideNavDashBoard"
 import { LinkContainer } from "react-router-bootstrap";
 import { listUsers, deleteUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,7 +49,7 @@ const UserListScreen = ({ history }) => {
           <Card className="card-login w-100 table-card-border shadow-lg">
             <Card.Body className="px-0 pt-0 pb-2">
               <h3 className="headingstyles text-center mt-3 mb-3">
-                Customers who have signed up or ordered from you
+               All Customers Data
               </h3>
               <div class="table-responsive p-0">
                 <table className="table align-items-center mb-0">
@@ -64,17 +65,17 @@ const UserListScreen = ({ history }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
+                    {users && users.map((user) => (
                       <tr key={user._id}>
-                        <td>{user._id}</td>
-                        <td>{user.name}</td>
-                        <td>
+                        <td className="text-table">{user._id}</td>
+                        <td className="text-table">{user.name}</td>
+                        <td className="text-table">
                           <a className="td-email" href={`mailto:${user.email}`}>
                             {" "}
                             {user.email}{" "}
                           </a>
                         </td>
-                        <td>
+                        <td className="text-table">
                           <a className="td-mobile" href={`tel:${user.mobile}`}>
                             {" "}
                             {user.mobile}{" "}
@@ -93,14 +94,14 @@ const UserListScreen = ({ history }) => {
                         </td>
                         <td>
                           <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                            <a className="">
-                              <i class="fas fa-user-edit mr-2"></i> Edit
+                            <a className="edit-button-tables">
+                              <i class="fas fa-pencil-alt mr-2"></i> Edit
                             </a>
                           </LinkContainer>
                         </td>
                         <td>
                           <a
-                            className="delete-button"
+                            className="delete-button-tables"
                             onClick={() => deleteHandler(user._id)}
                           >
                             <i class="far fa-trash-alt mr-2"></i>

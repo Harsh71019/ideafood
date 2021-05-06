@@ -5,6 +5,13 @@ import generateToken from "../utils/generateToken.js";
 import resetToken from "../utils/resetToken.js";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import { response } from "express";
+import generator from "generate-password";
+
+const client = new OAuth2Client(
+  "665853487704-ropbcipkfr277l8a36fo9ki7l59jaid0.apps.googleusercontent.com"
+);
 
 //@desc Auth user and get token
 //@routes GET /api/users/login
@@ -296,6 +303,84 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc fetch
+//@routes GET http://localhost:5000/api/users/getusercount
+// @access private admin
+
+const getUserCount = asyncHandler(async (req, res) => {
+  const userCount = await User.countDocuments((count) => count);
+  console.log(userCount);
+
+  if (userCount) {
+    res.json({ userCount: userCount });
+  } else {
+    res.status(404);
+    throw new Error("users not there");
+  }
+});
+
+//@desc fetch
+//@routes GET http://localhost:5000/api/users/getusercount
+// @access private admin
+
+const googleLogin = asyncHandler(async (req, res) => {
+  const { tokenId } = req.body;
+  client
+    .verifyIdToken({
+      idToken: tokenId,
+      audience:
+        "665853487704-ropbcipkfr277l8a36fo9ki7l59jaid0.apps.googleusercontent.com",
+    })
+    .then((response) => {
+      const { email_verified, name, email } = response.payload;
+      if (email_verified) {
+        User.findOne({ email }).exec((err, user) => {
+          if (err) {
+            res.status(404).json({ error: "Something went wrong" });
+            // throw new Error("Something went wrong");
+          } else {
+            console.log(user);
+            if (user) {
+              res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: generateToken(user._id),
+              });
+            } else {
+              const password = generator.generate({
+                length: 10,
+                numbers: true,
+              });
+              const mobile = 1234567890;
+
+              const userNew = User.create({
+                name,
+                email,
+                mobile,
+                password,
+              });
+              if (userNew) {
+                res.status(201).json({
+                  _id: userNew._id,
+                  name: userNew.name,
+                  email: userNew.email,
+                  mobile: userNew.mobile,
+                  isAdmin: userNew.isAdmin,
+                  token: generateToken(userNew._id),
+                });
+              } else {
+                res.status(400);
+                throw new Error("Invalid user data");
+              }
+            }
+          }
+        });
+      }
+    });
+});
+
 export {
   updateUser,
   authUser,
@@ -307,4 +392,6 @@ export {
   getUserById,
   forgotPassword,
   resetPassword,
+  getUserCount,
+  googleLogin,
 };

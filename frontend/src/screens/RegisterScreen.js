@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { register } from "../actions/userActions";
+import { register, googleLogin } from "../actions/userActions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/registerscreen.styles.css";
+import { GoogleLogin } from "react-google-login";
+import axios from "axios";
 
 const RegisterScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
@@ -19,7 +21,6 @@ const RegisterScreen = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
-  console.log(redirect);
 
   const dispatch = useDispatch();
 
@@ -27,11 +28,22 @@ const RegisterScreen = ({ location, history }) => {
 
   const { loading, error, userInfo } = userRegister;
 
+  const userGoogle = useSelector((state) => state.userGoogle);
+
+  const {
+    loading: loadingGoogle,
+    error: errorGoogle,
+    userInfo: userInfoGoogle,
+  } = userGoogle;
+
   useEffect(() => {
     if (userInfo) {
       history.push(redirect);
     }
-  }, [history, redirect, userInfo]);
+    if (userInfoGoogle) {
+      history.push(redirect);
+    }
+  }, [history, redirect, userInfo, userInfoGoogle]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -42,6 +54,13 @@ const RegisterScreen = ({ location, history }) => {
       dispatch(register(name, email, password, mobile));
     }
   };
+
+  const responseGoogleSuccess = (response) => {
+    dispatch(googleLogin(response.tokenId));
+  };
+  const responseGoogleFailure = (response) => {
+    console.log("Google Auth Failed");
+  };
   return (
     <FormContainer>
       <Card className="shadow-lg bg-white mt-5 card-register">
@@ -51,6 +70,17 @@ const RegisterScreen = ({ location, history }) => {
           {/* {error && <Message>{error}</Message>} */}
           {error && <ToastContainer />}
           {loading && <Loader />}
+          {loadingGoogle && <Loader />}
+          {loading && <loadingGoogle />}
+          {errorGoogle && <Message variant="danger">{errorGoogle}</Message>}
+
+          <GoogleLogin
+            clientId="665853487704-ropbcipkfr277l8a36fo9ki7l59jaid0.apps.googleusercontent.com"
+            buttonText="Register"
+            onSuccess={responseGoogleSuccess}
+            onFailure={responseGoogleFailure}
+            cookiePolicy={"single_host_origin"}
+          />
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>

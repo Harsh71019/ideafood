@@ -15,6 +15,14 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
+  ORDER_RECEIVE_REQUEST,
+  ORDER_RECEIVE_SUCCESS,
+  ORDER_RECEIVE_FAIL,
+  ORDER_RECEIVE_RESET,
+  ORDER_TRANSIT_REQUEST,
+  ORDER_TRANSIT_SUCCESS,
+  ORDER_TRANSIT_FAIL,
+  ORDER_TRANSIT_RESET,
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
@@ -190,7 +198,7 @@ export const listOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const deliverOrderAction = (order) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_DELIVER_REQUEST,
@@ -217,6 +225,76 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const recieveOrderAction = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_RECEIVE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/receive`,
+      {},
+      config
+    );
+    dispatch({
+      type: ORDER_RECEIVE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_RECEIVE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const orderTransitAction = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_TRANSIT_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/transit`,
+      {},
+      config
+    );
+    dispatch({
+      type: ORDER_TRANSIT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_TRANSIT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

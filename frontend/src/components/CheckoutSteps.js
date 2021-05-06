@@ -1,10 +1,11 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import "../styles/checkoutsteps.styles.css"
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
-    <Nav className="justify-content-center mb-4">
+    <Nav className="justify-content-center mb-4 shadow-lg checkout-steps-nav">
       <Nav.Item>
         {step1 ? (
           <LinkContainer to="/login">

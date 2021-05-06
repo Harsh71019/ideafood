@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Button, Table, Container } from "react-bootstrap";
+import { Button, Table, Container, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
 import { listOrders } from "../actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
+import "../styles/tables.styles.css";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -31,62 +32,85 @@ const OrderListScreen = ({ history }) => {
   return (
     <>
       <Container>
-        <h1>Customer Orders</h1>
         {loading ? (
           <Loader />
         ) : error ? (
           <Message>{error}</Message>
         ) : (
-          <Table striped bordered hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>USER</th>
-                <th>DATE && TIME</th>
-                <th>TOTAL PRICE</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-              </tr>
-            </thead>
-            s
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.user && order.user.name}</td>
-                  <td>{dateConvert}</td>
+          <Card className="card-login w-100 table-card-border shadow-lg">
+            <Card.Body className="px-0 pt-0 pb-2">
+              <h3 className="headingstyles text-center mt-3 mb-3">
+                All Orders
+              </h3>
+              <div class="table-responsive p-0">
+                <table className="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th className="th-border-none fontstylesth">ID</th>
+                      <th className="th-border-none fontstylesth">USER</th>
+                      <th className="th-border-none fontstylesth">
+                        DATE & TIME
+                      </th>
+                      <th className="th-border-none fontstylesth">
+                        TOTAL PRICE
+                      </th>
+                      <th className="th-border-none fontstylesth">PAID</th>
+                      <th className="th-border-none fontstylesth">DELIVERED</th>
+                      <th className="th-border-none fontstylesth">DETAILS</th>
+                    </tr>
+                  </thead>
 
-                  <td>₹{order.totalPrice}</td>
-                  <td>
-                    {order.isPaid ? (
-                      <i
-                        className="fas fa-check"
-                        style={{ color: "green" }}
-                      ></i>
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
+                  <tbody>
+                    {orders.map((order) => (
+                      <tr key={order._id}>
+                        <td className="text-table">{order._id}</td>
+                        <td className="text-table">
+                          {order.user && order.user.name}
+                        </td>
+                        <td className="text-table">{dateConvert}</td>
 
-                  <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
+                        <td className="text-table">₹{order.totalPrice}</td>
+                        <td>
+                          {order.isPaid ? (
+                            <span className="badge bg-gradient-success">
+                              PAID
+                            </span>
+                          ) : (
+                            <span className="badge bg-gradient-danger">
+                              NOT PAID
+                            </span>
+                          )}
+                        </td>
 
-                  <td>
-                    <LinkContainer to={`/admin/orders/${order._id}`}>
-                      <Button variant="light" className="btn-sm">
-                        View Details
-                      </Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+                        <td>
+                          {order.isDelivered ? (
+                            <span className="badge bg-gradient-success">
+                              DELIVERED
+                            </span>
+                          ) : (
+                            <span className="badge bg-gradient-danger">
+                              NOT DELIVERED
+                            </span>
+                          )}
+                        </td>
+
+                        <td>
+                          <LinkContainer
+                            className="bg-gradient-dark button-view-details-tables"
+                            to={`/admin/orders/${order._id}`}
+                          >
+                            <button className="bg-gradient-dark button-view-details-tables">
+                              View Details
+                            </button>
+                          </LinkContainer>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card.Body>
+          </Card>
         )}
       </Container>
     </>

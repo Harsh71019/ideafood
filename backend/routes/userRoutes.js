@@ -10,7 +10,9 @@ import {
   updateUser,
   getUserById,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  getUserCount,
+  googleLogin,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -20,9 +22,12 @@ router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router.route("/getusercount").get(protect, admin, getUserCount);
 
 router.put("/forgot-password", forgotPassword);
 router.put("/reset-password", resetPassword);
+
+router.post("/googlelogin", googleLogin);
 
 router
   .route("/:id")
@@ -30,6 +35,4 @@ router
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser);
 
-
 export default router;
- 
