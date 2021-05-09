@@ -1,0 +1,24 @@
+.card-admin-dash {
+  border-radius: 15px !important;
+  width: 100%;
+}
+
+.icon-dashboard-admin {
+  font-size: 33px;
+}
+
+.orange-dash-icon {
+  color: #ff9149;
+}
+
+.blue-dash-icon {
+  color: #1e9ff2;
+}
+
+.green-dash-icon {
+  color: #28d094;
+}
+
+.red-dash-icon {
+  color: #ff4961;
+}

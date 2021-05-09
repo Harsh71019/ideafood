@@ -1,0 +1,42 @@
+.admin-nav-main {
+  border-radius: 7px;
+  background: white;
+}
+
+.admin-nav-link {
+  color: black;
+}
+
+.card-admin-graph {
+  border-radius: 12px !important;
+}
+
+.admin-nav-link:hover {
+  color: rgb(0, 60, 255);
+}
+
+.admin-span-text {
+  font-size: 20px;
+}
+
+.admin-nav-icon {
+  font-size: 24px;
+}
+
+.red-icon {
+  color: brown;
+}
+
+.blue-icon {
+}
+
+.green-icon {
+  color: #28d094;
+}
+
+
+@media only screen and (max-width: 765px) {
+  .admin-span-text {
+    display: none;
+  }
+}

@@ -1,5 +1,25 @@
+/* .login-main-div {
+  display: block;
+  position: relative;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1920 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path fill="rgba(255, 255, 255, 1)" d="M 0 23 C 242.5 23 242.5 146 485 146 L 485 146 L 485 0 L 0 0 Z" stroke-width="0"></path> <path fill="rgba(255, 255, 255, 1)" d="M 484 146 C 725 146 725 61 966 61 L 966 61 L 966 0 L 484 0 Z" stroke-width="0"></path> <path fill="rgba(47, 73, 94, 1)" d="M 965 61 C 1206.5 61 1206.5 246 1448 246 L 1448 246 L 1448 0 L 965 0 Z" stroke-width="0"></path><path fill="rgba(47, 73, 94, 1)" d="M 1447 246 C 1683.5 246 1683.5 45 1920 45 L 1920 45 L 1920 0 L 1447 0 Z" stroke-width="0"></path></svg>');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 200px;
+}
+
+@media (max-width: 1919px) {
+  .login-main-div {
+    background-size: contain;
+  }
+} */
+
 .card-login {
-  border-radius: 15px !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37) !important;
+  backdrop-filter: blur(5.5px) !important;
+  -webkit-backdrop-filter: blur(5.5px) !important;
+  border-radius: 15px !important; 
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
 }
 
 .btn-grad {
@@ -16,7 +36,6 @@
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  box-shadow: 0 0 20px #eee;
   border-radius: 5px;
   display: block;
   border: none;

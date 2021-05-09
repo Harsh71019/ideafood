@@ -424,6 +424,8 @@ export const resetPasswordAction = (resetLink, newPassword) => async (
       type: USER_RESET_PASSWORD_SUCCESS,
     });
 
+    localStorage.removeItem("userInfo");
+
     toast.success("Password Reset Successful");
   } catch (error) {
     dispatch({

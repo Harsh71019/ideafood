@@ -252,6 +252,70 @@ const getTotalSales = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc fetch
+//@routes GET http://localhost:5000/api/orders/totalsale
+// @access private admin
+
+const getOrdersPerDay = asyncHandler(async (req, res) => {
+  // const totalSales = await Order.aggregate([
+  //   { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } },
+  // ]);
+  const getOrderPerDayLast30 = await Order.aggregate([
+    {
+      $group: {
+        _id: {
+          $dateToString: {
+            date: "$createdAt",
+            format: "%Y-%m-%d",
+          },
+        },
+        count: { $sum: 1 },
+        totalSales: { $sum: "$totalPrice" },
+      },
+    },
+  ]).sort({ _id: 1 });
+
+  if (getOrderPerDayLast30) {
+    res.json(getOrderPerDayLast30);
+  } else {
+    res.status(404);
+    throw new Error("total Orders By Day could not be generated");
+  }
+});
+
+const orderStatsMisc = asyncHandler(async (req, res) => {
+  const highestPaidOrder = await Order.find().sort({ totalPrice: -1 }).limit(1);
+
+  const highestUsersOrder = await Order.aggregate([
+    {
+      $group: {
+        _id: "$user",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        count: -1,
+      },
+    },
+    {
+      $limit: 1,
+    },
+  ]);
+
+  if (highestPaidOrder && highestUsersOrder) {
+    res.json({
+      highestPaidOrder: highestPaidOrder,
+      highestUsersOrder: highestUsersOrder,
+    });
+  } else {
+    res.status(404);
+    throw new Error("total Orders By Day could not be generated");
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
@@ -265,4 +329,6 @@ export {
   razorpayOrderSuccess,
   getOrderCount,
   getTotalSales,
+  getOrdersPerDay,
+  orderStatsMisc,
 };

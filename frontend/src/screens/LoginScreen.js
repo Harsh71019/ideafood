@@ -23,7 +23,7 @@ const LoginScreen = ({ location, history }) => {
 
   const { loading, error, userInfo, success } = userLogin;
 
-  console.log(success);
+  console.log(userInfo);
 
   useEffect(() => {
     if (userInfo) {
@@ -38,60 +38,60 @@ const LoginScreen = ({ location, history }) => {
   };
 
   return (
-    <FormContainer>
-      {error && <ToastContainer />}
-      {loading && <Loader />}
-      <Card className="shadow-lg bg-white mt-5 card-login">
-        <Card.Body>
-          <h3 className="text-center headingstyles">Welcome Back!</h3>
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+      <FormContainer>
+        {error && <ToastContainer />}
+        {loading && <Loader />}
+        <Card className="shadow-lg mt-5 card-login">
+          <Card.Body>
+            <h3 className="text-center headingstyles">Welcome Back!</h3>
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="email">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Row className="py-1 ">
-              <Col>
-                <Button type="submit" className="btn-grad">
-                  Sign In
-                </Button>
-              </Col>
-              <Col className="d-flex justify-content-end">
-                <Link className="forgotpassword-btn" to="/forgot-password">
-                  <Button className="forgotpassword-btn">
-                    Forgot Password
+              <Row className="py-1 ">
+                <Col>
+                  <Button type="submit" className="btn-grad">
+                    Sign In
                   </Button>
+                </Col>
+                <Col className="d-flex justify-content-end">
+                  <Link className="forgotpassword-btn" to="/forgot-password">
+                    <Button className="forgotpassword-btn">
+                      Forgot Password
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
+            </Form>
+            <Row className="py-3">
+              <Col>
+                New Customer ?
+                <Link
+                  to={redirect ? `/register?redirect=${redirect}` : "/register"}
+                >
+                  &nbsp;Register
                 </Link>
               </Col>
             </Row>
-          </Form>
-          <Row className="py-3">
-            <Col>
-              New Customer ?
-              <Link
-                to={redirect ? `/register?redirect=${redirect}` : "/register"}
-              >
-                &nbsp;Register
-              </Link>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    </FormContainer>
+          </Card.Body>
+        </Card>
+      </FormContainer>
   );
 };
 

@@ -13,6 +13,8 @@ import {
   updateOrderToInTransit,
   getOrderCount,
   getTotalSales,
+  getOrdersPerDay,
+  orderStatsMisc,
 } from "../controllers/orderController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -27,5 +29,8 @@ router.route("/getordercount/orders").get(protect, admin, getOrderCount);
 router.route("/getorders/totalsales").get(protect, admin, getTotalSales);
 router.route("/razorpay/:id").get(protect, razorpayOrderPay);
 router.route("/razorpayment").post(protect, razorpayOrderSuccess);
+
+router.route("/total/orders/day").get(getOrdersPerDay);
+router.route("/total/ordersmisc").get(orderStatsMisc);
 
 export default router;

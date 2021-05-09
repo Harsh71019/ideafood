@@ -39,6 +39,14 @@ import {
   feedbackListReducer,
 } from "./reducers/feedbackReducers";
 
+import {
+  dashBoardTotalProductsReducer,
+  dashBoardTotalUsersReducer,
+  dashBoardTotalSalesReducer,
+  dashBoardTotalOrdersReducer,
+  adminSalesGraphReducer,
+} from "./reducers/dashBoardReducers";
+
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -54,7 +62,7 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  userGoogle:userGoogleReducer,
+  userGoogle: userGoogleReducer,
   orderCreate: orderCreateReducer,
   orderDetails: ordersDetailsReducer,
   orderPay: orderPayReducer,
@@ -68,6 +76,11 @@ const reducer = combineReducers({
   razorPay: razorPayReducer,
   userFeedback: userFeedbackReducer,
   feedbackList: feedbackListReducer,
+  totalProducts: dashBoardTotalProductsReducer,
+  totalOrders: dashBoardTotalOrdersReducer,
+  totalSales: dashBoardTotalSalesReducer,
+  totalUsers: dashBoardTotalUsersReducer,
+  adminSalesGraph: adminSalesGraphReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
