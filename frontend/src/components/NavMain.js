@@ -13,6 +13,7 @@ import { logout } from "../actions/userActions";
 import { Route } from "react-router-dom";
 import SearchBox from "./SearchBox";
 
+
 const NavMain = () => {
   const dispatch = useDispatch();
 
@@ -25,6 +26,7 @@ const NavMain = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
+    
   };
 
   return (
@@ -47,8 +49,7 @@ const NavMain = () => {
                 <Navbar.Toggle
                   className="nav-button"
                   aria-controls="basic-navbar-nav"
-                >
-                </Navbar.Toggle>
+                ></Navbar.Toggle>
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Route
                     render={({ history }) => <SearchBox history={history} />}
@@ -90,27 +91,11 @@ const NavMain = () => {
                       </>
                     )}
                     {userInfo && userInfo.isAdmin && (
-                      <NavDropdown
-                        className="nav-font-styles"
-                        title="Admin"
-                        id="adminname"
-                      >
-                        <LinkContainer to="/admin/userlist">
-                          <NavDropdown.Item>Users</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to="/admin/productlist">
-                          <NavDropdown.Item>Manage Product</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to="/admin/orderlist">
-                          <NavDropdown.Item>Orders</NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to="/admin/feedback">
-                          <NavDropdown.Item>User Messages</NavDropdown.Item>
-                        </LinkContainer>
+
+
                         <LinkContainer to="/admin/dashboard">
-                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                          <Nav.Link>Dashboard</Nav.Link>
                         </LinkContainer>
-                      </NavDropdown>
                     )}
                   </Nav>
                 </Navbar.Collapse>

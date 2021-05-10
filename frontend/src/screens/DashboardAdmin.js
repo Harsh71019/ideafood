@@ -62,8 +62,6 @@ const DashboardAdmin = () => {
     dispatch(adminSalesGraphActions());
   }, []);
 
-  console.log(salesgraph);
-
   return (
     <div className="container">
       {orderLoading &&
@@ -89,11 +87,9 @@ const DashboardAdmin = () => {
                     </p>
                     <h5 class="font-weight-bolder mb-0">
                       <i class="uil uil-rupee-sign"></i>
-                      <CountUp
-                        start={0}
-                        end={totalSalesRupees && totalSalesRupees.totalSales}
-                        duration={5}
-                      />
+
+                      {totalSalesRupees && totalSalesRupees.totalSales}
+
                       {/* <span class="text-success text-sm font-weight-bolder">
                         +55%
                       </span> */}
@@ -119,13 +115,7 @@ const DashboardAdmin = () => {
                       Total Users
                     </p>
                     <h5 class="font-weight-bolder mb-0">
-                      <CountUp
-                        start={0}
-                        end={Number(
-                          totalUsersCount && totalUsersCount.userCount
-                        )}
-                        duration={5}
-                      />
+                      {totalUsersCount && totalUsersCount.userCount}
 
                       {/* <span class="text-success text-sm font-weight-bolder">
                         +3%

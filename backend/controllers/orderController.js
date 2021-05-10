@@ -15,7 +15,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     0
   );
 
-  console.log(itemsPrice);
+  const totalQuantity = orderItems.reduce((acc, item) => acc + item.qty, 0);
 
   const taxPrice = Number(0.15 * itemsPrice);
 
@@ -24,8 +24,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
   const totalPrice =
     100 *
     Math.round(Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice));
-
-  console.log(itemsPrice, shippingPrice, totalPrice, taxPrice, shippingAddress);
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);

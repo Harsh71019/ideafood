@@ -35,13 +35,13 @@ import {
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_REQUEST,
 } from "../constants/userConstants";
+import toast from "react-hot-toast";
 
 import {
   ORDER_DETAILS_SUCCESS,
   ORDER_LIST_MY_RESET,
 } from "../constants/orderConstants";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -67,7 +67,7 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
-    toast.success("Check Your Email");
+    toast.success("Login Success");
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -99,6 +99,7 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: USER_LIST_RESET,
   });
+  toast.success("Logout Success");
 };
 
 export const register = (name, email, password, mobile) => async (dispatch) => {
@@ -130,6 +131,7 @@ export const register = (name, email, password, mobile) => async (dispatch) => {
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
+    toast.success("Register Success");
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -175,6 +177,7 @@ export const googleLogin = (tokenId) => async (dispatch) => {
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
+    toast.success("Login With Google Success");
   } catch (error) {
     dispatch({
       type: USER_LOGIN_GOOGLE_FAIL,
@@ -248,6 +251,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
     });
+    toast.success("Profile updated");
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
@@ -256,6 +260,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    );
   }
 };
 
@@ -313,6 +322,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch({
       type: USER_DELETE_SUCCESS,
     });
+    toast.success("User Deleted Successfully");
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAIL,
@@ -321,6 +331,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Delete User Failed");
   }
 };
 
@@ -350,6 +361,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
     });
+    toast.success("User Updated");
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
@@ -358,6 +370,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.success("User Updation Failed");
   }
 };
 
@@ -425,7 +438,6 @@ export const resetPasswordAction = (resetLink, newPassword) => async (
     });
 
     localStorage.removeItem("userInfo");
-
     toast.success("Password Reset Successful");
   } catch (error) {
     dispatch({

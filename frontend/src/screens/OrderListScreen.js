@@ -7,6 +7,7 @@ import { listOrders } from "../actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 import "../styles/tables.styles.css";
+import AdminDashboardNav from "../components/AdminDashboardNav";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const OrderListScreen = ({ history }) => {
   return (
     <>
       <Container>
+        <AdminDashboardNav />
         {loading ? (
           <Loader />
         ) : error ? (

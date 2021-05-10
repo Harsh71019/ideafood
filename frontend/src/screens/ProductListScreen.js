@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, createProduct } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import Paginate from "../components/Paginate";
+import AdminDashboardNav from "../components/AdminDashboardNav";
 
 const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1;
@@ -70,6 +71,7 @@ const ProductListScreen = ({ history, match }) => {
   return (
     <>
       <Container className="mt-5">
+        <AdminDashboardNav />
         {loadingDelete && <Loader />}
         {deleteError && <Message variant="danger">{deleteError}</Message>}
 
@@ -90,7 +92,10 @@ const ProductListScreen = ({ history, match }) => {
                     </h3>
                   </div>
                   <div className="col text-right d-flex justify-content-end">
-                    <button className="my-3 mr-5 create-button-product" onClick={createProductHandler}>
+                    <button
+                      className="my-3 mr-5 create-button-product"
+                      onClick={createProductHandler}
+                    >
                       <i className="fas fa-plus"></i> Create Product
                     </button>
                   </div>

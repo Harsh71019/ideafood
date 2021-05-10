@@ -5,6 +5,8 @@ import {
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
 } from "../constants/cartConstants";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`);
@@ -21,6 +23,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
     },
   });
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  toast.success("Item Added To Cart")
 };
 
 export const removeFromCart = (id) => (dispatch, getState) => {
@@ -30,6 +33,9 @@ export const removeFromCart = (id) => (dispatch, getState) => {
   });
 
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  toast.error("Item removed from cart")
+
+
 };
 
 export const saveShippingAddress = (data) => (dispatch) => {
@@ -38,6 +44,8 @@ export const saveShippingAddress = (data) => (dispatch) => {
     payload: data,
   });
   localStorage.setItem("shippingAddress", JSON.stringify(data));
+  toast.success("Save Address Success")
+
 };
 
 export const savePaymentMethod = (data) => (dispatch) => {

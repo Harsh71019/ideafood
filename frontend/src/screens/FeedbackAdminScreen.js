@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { listFeedbacks } from "../actions/feedbackAction";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import AdminDashboardNav from "../components/AdminDashboardNav";
 
 const FeedbackAdminScreen = () => {
   const feedbackList = useSelector((state) => state.feedbackList);
@@ -18,6 +19,7 @@ const FeedbackAdminScreen = () => {
 
   return (
     <div className="container mt-5">
+      <AdminDashboardNav />
       <h3 className="headingstyles text-center">User Messages</h3>
       {loading && <Loader />}
       {error && <Message>{error}</Message>}

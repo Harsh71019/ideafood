@@ -30,6 +30,7 @@ import {
   RAZOR_ORDER_SUCCESS,
   RAZOR_ORDER_REQUEST,
 } from "../constants/orderConstants";
+import { toast } from "react-hot-toast";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -52,6 +53,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_SUCCESS,
       payload: data,
     });
+    toast.success("Order Created!");
     localStorage.removeItem("cartItems");
   } catch (error) {
     dispatch({
@@ -123,6 +125,7 @@ export const payOrder = (orderId, paymentResult) => async (
       type: ORDER_PAY_SUCCESS,
       payload: data,
     });
+    toast.success("Payment Successful!");
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAIL,
@@ -131,6 +134,7 @@ export const payOrder = (orderId, paymentResult) => async (
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Payment failed!");
   }
 };
 
@@ -222,6 +226,7 @@ export const deliverOrderAction = (order) => async (dispatch, getState) => {
       type: ORDER_DELIVER_SUCCESS,
       payload: data,
     });
+    toast.success("Delivery Successful!");
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
@@ -230,6 +235,7 @@ export const deliverOrderAction = (order) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Delivery Failed!");
   }
 };
 
@@ -257,6 +263,7 @@ export const recieveOrderAction = (order) => async (dispatch, getState) => {
       type: ORDER_RECEIVE_SUCCESS,
       payload: data,
     });
+    toast.success("Set Recieved Order Success");
   } catch (error) {
     dispatch({
       type: ORDER_RECEIVE_FAIL,
@@ -265,6 +272,7 @@ export const recieveOrderAction = (order) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Set Recieved Order Failed");
   }
 };
 
@@ -292,6 +300,7 @@ export const orderTransitAction = (order) => async (dispatch, getState) => {
       type: ORDER_TRANSIT_SUCCESS,
       payload: data,
     });
+    toast.success("Order In Transit Success");
   } catch (error) {
     dispatch({
       type: ORDER_TRANSIT_FAIL,
@@ -300,6 +309,7 @@ export const orderTransitAction = (order) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Order In Transit Failed");
   }
 };
 
@@ -334,6 +344,7 @@ export const razorSuccess = (
       type: RAZOR_ORDER_SUCCESS,
       payload: data,
     });
+    toast.success("Razor Order Success");
   } catch (error) {
     dispatch({
       type: RAZOR_ORDER_FAIL,
@@ -342,5 +353,6 @@ export const razorSuccess = (
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Razor Order Failed");
   }
 };

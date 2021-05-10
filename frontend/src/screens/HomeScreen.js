@@ -24,7 +24,7 @@ const HomeScreen = ({ match }) => {
 
   const { loading, error, products, page, pages } = productList;
 
-  console.log(products)
+  console.log(products);
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
@@ -48,11 +48,13 @@ const HomeScreen = ({ match }) => {
                 </Col>
               ))}
             </Row>
-            <Paginate
-              page={page}
-              pages={pages}
-              keyword={keyword ? keyword : ""}
-            />
+            <Row className="d-flex justify-content-center mt-3">
+              <Paginate
+                page={page}
+                pages={pages}
+                keyword={keyword ? keyword : ""}
+              />
+            </Row>
           </>
         )}
         <ContactUs />

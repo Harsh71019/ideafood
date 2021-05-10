@@ -6,9 +6,22 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./store";
+import toast, { Toaster } from "react-hot-toast";
 
 ReactDOM.render(
   <Provider store={store}>
+    <div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            marginTop: "80px",
+            marginRight:"30px"
+          },
+        }}
+      />
+    </div>
     <App />
   </Provider>,
   document.getElementById("root")

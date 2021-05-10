@@ -7,7 +7,7 @@ import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
@@ -21,8 +21,9 @@ import OrderDetailsAdmin from "./screens/OrderDetailsAdmin";
 import ForgotPassword from "./screens/ForgotPassword";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import FeedbackAdminScreen from "./screens/FeedbackAdminScreen";
-import DashboardAdmin from "./screens/DashboardAdmin"
-import ProfileMyOrders from "./screens/ProfileMyOrders"
+import DashboardAdmin from "./screens/DashboardAdmin";
+import ProfileMyOrders from "./screens/ProfileMyOrders";
+import NotFound from "./components/NotFound";
 import "./App.css";
 
 const App = () => {

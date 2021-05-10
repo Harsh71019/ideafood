@@ -22,6 +22,7 @@ import {
   PRODUCT_CREATE_REVIEW_RESET,
 } from "../constants/productConstants";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export const listProducts = (keyword = "", pageNumber = "") => async (
   dispatch
@@ -92,6 +93,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     });
+    toast.success("Product Deleted Successfully");
   } catch (error) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
@@ -100,6 +102,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Product Delete Failed");
   }
 };
 
@@ -123,6 +126,7 @@ export const createProduct = () => async (dispatch, getState) => {
       type: PRODUCT_CREATE_SUCCESS,
       payload: data,
     });
+    toast.success("Product Created Successfully");
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAIL,
@@ -131,6 +135,7 @@ export const createProduct = () => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Product Creation Failed");
   }
 };
 
@@ -159,6 +164,8 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       type: PRODUCT_UPDATE_SUCCESS,
       payload: data,
     });
+    toast.success("Product Updated Successfully")
+
   } catch (error) {
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
@@ -167,6 +174,8 @@ export const updateProduct = (product) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Product Updation Fail")
+
   }
 };
 
@@ -193,6 +202,8 @@ export const createProductReview = (productId, review) => async (
     dispatch({
       type: PRODUCT_CREATE_REVIEW_SUCCESS,
     });
+    toast.success("Review Added")
+
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
@@ -201,5 +212,7 @@ export const createProductReview = (productId, review) => async (
           ? error.response.data.message
           : error.message,
     });
+    toast.error("Review Adding Failed")
+
   }
 };

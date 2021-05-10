@@ -8,7 +8,7 @@ import {
 } from "../constants/feedbackConstants";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 export const feedbackUser = (name, email, description) => async (dispatch) => {
   try {
@@ -67,7 +67,7 @@ export const listFeedbacks = () => async (dispatch, getState) => {
       payload: data,
     });
 
-    
+    toast.success("Messages Loaded");
   } catch (error) {
     dispatch({
       type: ADMIN_FEEDBACK_FAIL,
