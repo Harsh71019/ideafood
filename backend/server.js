@@ -37,8 +37,11 @@ app.use(mongoSanitize());
 
 //Set Security Headers
 
-app.use(helmet());
-
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 // Prevent CrossSite Scripting XSS
 
 app.use(xss());
@@ -53,7 +56,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 //Prevent HPP param pollution
- 
+
 app.use(hpp());
 
 app.use("/api/products", productRoutes);
